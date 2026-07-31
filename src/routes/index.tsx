@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useSession } from "@/hooks/use-auth";
 import {
   Accordion,
   AccordionContent,
@@ -197,6 +198,8 @@ function Section({
 }
 
 function Index() {
+  const { session, loading } = useSession();
+  const signedIn = !loading && !!session;
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
@@ -214,7 +217,22 @@ function Index() {
             <a href="#pricing" className="hover:text-accent">Pricing</a>
             <a href="#faq" className="hover:text-accent">FAQ</a>
           </div>
-          <Button variant="hero" size="pill">Start free</Button>
+          <div className="flex items-center gap-2">
+            {signedIn ? (
+              <Button variant="hero" size="pill" asChild>
+                <Link to="/dashboard">My dashboard</Link>
+              </Button>
+            ) : (
+              <>
+                <Button variant="soft" size="pill" asChild className="hidden sm:inline-flex">
+                  <Link to="/auth">Sign in</Link>
+                </Button>
+                <Button variant="hero" size="pill" asChild>
+                  <Link to="/auth">Start free</Link>
+                </Button>
+              </>
+            )}
+          </div>
         </nav>
       </header>
 
