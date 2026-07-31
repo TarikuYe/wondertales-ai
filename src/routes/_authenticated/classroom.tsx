@@ -1,5 +1,7 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { auth, db } from "@/integrations/firebase/client";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCap } from "lucide-react";
@@ -22,12 +24,19 @@ export const Route = createFileRoute("/_authenticated/classroom")({
     ],
   }),
   beforeLoad: async () => {
-    const { data: userData } = await supabase.auth.getUser();
-    if (!userData.user) throw redirect({ to: "/auth" });
-    const { data: isTeacher } = await supabase.rpc("has_role", {
-      _user_id: userData.user.id,
-      _role: "teacher",
+    const user = await new Promise<any>((resolve) => {
+      const unsubscribe = onAuthStateChanged(auth, (u) => {
+        unsubscribe();
+        resolve(u);
+      });
     });
+    
+    if (!user) throw redirect({ to: "/auth" });
+    
+    const rolesQuery = query(collection(db, "user_roles"), where("user_id", "==", user.uid), where("role", "==", "teacher"));
+    const rolesSnapshot = await getDocs(rolesQuery);
+    const isTeacher = !rolesSnapshot.empty;
+    
     if (!isTeacher) throw redirect({ to: "/dashboard" });
   },
   component: Classroom,

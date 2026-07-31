@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
+import { auth, db } from "@/integrations/firebase/client";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -74,65 +81,70 @@ function AuthPage() {
   const [pendingConfirm, setPendingConfirm] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
         navigate({ to: "/dashboard", replace: true });
       } else {
         setChecking(false);
       }
     });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) navigate({ to: "/dashboard", replace: true });
-    });
-    return () => sub.subscription.unsubscribe();
+    return () => unsubscribe();
   }, [navigate]);
 
   async function handleSignUp(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
-        data: {
-          role,
-          full_name: fullName,
-          organization: role === "teacher" ? organization : "",
-        },
-      },
-    });
-    setBusy(false);
-    if (error) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "profiles", user.uid), {
+        id: user.uid,
+        full_name: fullName,
+        organization: role === "teacher" ? organization : null,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        preferred_language: 'en'
+      });
+
+      await setDoc(doc(db, "user_roles", user.uid), {
+        id: user.uid,
+        user_id: user.uid,
+        role: role,
+        created_at: new Date().toISOString()
+      });
+
+      toast.success("Account created successfully!");
+      // The onAuthStateChanged listener will handle the redirect
+    } catch (error: any) {
       toast.error(error.message);
-      return;
-    }
-    if (!data.session) {
-      setPendingConfirm(true);
-      toast.success("Check your email to confirm your account.");
+    } finally {
+      setBusy(false);
     }
   }
 
   async function handleSignIn(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setBusy(false);
-    if (error) toast.error(error.message);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function handleGoogle() {
     setBusy(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      setBusy(false);
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (error: any) {
       toast.error("Google sign-in failed. Please try again.");
-      return;
+    } finally {
+      setBusy(false);
     }
-    if (result.redirected) return;
-    navigate({ to: "/dashboard", replace: true });
   }
 
   if (checking) {
@@ -266,7 +278,7 @@ function AuthPage() {
                 <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-wide text-muted-foreground">
                   <span className="h-px flex-1 bg-border" /> or <span className="h-px flex-1 bg-border" />
                 </div>
-                <Button variant="soft" className="w-full" onClick={handleGoogle} disabled={busy}>
+                <Button variant="soft" className="w-full" type="button" onClick={handleGoogle} disabled={busy}>
                   Continue with Google
                 </Button>
                 <p className="mt-4 flex items-start gap-2 text-xs text-muted-foreground">

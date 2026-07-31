@@ -1,7 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { auth, db } from "@/integrations/firebase/client";
+import { signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { useRoles, useSession } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,18 +39,17 @@ function Dashboard() {
 
   useEffect(() => {
     if (!user) return;
-    supabase
-      .from("profiles")
-      .select("full_name")
-      .eq("id", user.id)
-      .maybeSingle()
-      .then(({ data }) => setFullName(data?.full_name ?? null));
+    getDoc(doc(db, "profiles", user.uid)).then((docSnap) => {
+      if (docSnap.exists()) {
+        setFullName(docSnap.data().full_name ?? null);
+      }
+    });
   }, [user]);
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
     queryClient.clear();
-    await supabase.auth.signOut();
+    await signOut(auth);
     navigate({ to: "/auth", replace: true });
   }
 

@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { db } from "@/integrations/firebase/client";
+import { collection, query, where, orderBy, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import { useSession } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -131,15 +132,20 @@ function Children() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
 
   const childrenQuery = useQuery({
-    queryKey: ["child-profiles", user?.id],
+    queryKey: ["child-profiles", user?.uid],
     enabled: !!user,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("child_profiles")
-        .select("id,name,birth_year,grade_level,reading_level,preferred_language,interests,notes")
-        .order("created_at", { ascending: true });
-      if (error) throw error;
-      return (data ?? []) as ChildRow[];
+      const q = query(
+        collection(db, "child_profiles"),
+        where("owner_id", "==", user!.uid),
+        orderBy("created_at", "asc")
+      );
+      const snapshot = await getDocs(q);
+      const data: ChildRow[] = [];
+      snapshot.forEach((doc) => {
+        data.push({ id: doc.id, ...doc.data() } as ChildRow);
+      });
+      return data;
     },
   });
 
@@ -174,16 +180,17 @@ function Children() {
       };
 
       if (editing) {
-        const { error } = await supabase
-          .from("child_profiles")
-          .update(payload)
-          .eq("id", editing.id);
-        if (error) throw error;
+        await updateDoc(doc(db, "child_profiles", editing.id), {
+          ...payload,
+          updated_at: new Date().toISOString()
+        });
       } else {
-        const { error } = await supabase
-          .from("child_profiles")
-          .insert({ ...payload, owner_id: user.id });
-        if (error) throw error;
+        await addDoc(collection(db, "child_profiles"), {
+          ...payload,
+          owner_id: user.uid,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        });
       }
     },
     onSuccess: () => {
@@ -198,8 +205,7 @@ function Children() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("child_profiles").delete().eq("id", id);
-      if (error) throw error;
+      await deleteDoc(doc(db, "child_profiles", id));
     },
     onSuccess: () => {
       toast.success("Profile removed");
