@@ -96,7 +96,11 @@ function Dashboard() {
               </CardTitle>
               <CardDescription>Set ages, reading levels, and languages for each child.</CardDescription>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">Coming next.</CardContent>
+            <CardContent>
+              <Button variant="soft" size="sm" asChild>
+                <Link to="/children">Manage child profiles</Link>
+              </Button>
+            </CardContent>
           </Card>
 
           <Card>
