@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      child_profiles: {
+        Row: {
+          birth_year: number | null
+          created_at: string
+          grade_level: string | null
+          id: string
+          interests: string[]
+          name: string
+          notes: string | null
+          owner_id: string
+          preferred_language: string
+          reading_level: string
+          updated_at: string
+        }
+        Insert: {
+          birth_year?: number | null
+          created_at?: string
+          grade_level?: string | null
+          id?: string
+          interests?: string[]
+          name: string
+          notes?: string | null
+          owner_id: string
+          preferred_language?: string
+          reading_level?: string
+          updated_at?: string
+        }
+        Update: {
+          birth_year?: number | null
+          created_at?: string
+          grade_level?: string | null
+          id?: string
+          interests?: string[]
+          name?: string
+          notes?: string | null
+          owner_id?: string
+          preferred_language?: string
+          reading_level?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
