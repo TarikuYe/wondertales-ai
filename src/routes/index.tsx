@@ -22,14 +22,14 @@ import {
 } from "lucide-react";
 
 const DESCRIPTION =
-  "WonderTales AI turns your child into the hero of illustrated, narrated stories that build reading skills — safe, ad-free, and made for ages 3–12.";
+  "TeretVerse turns your child into the hero of illustrated, narrated stories that build reading skills — safe, ad-free, and made for ages 3–12.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "WonderTales AI — Personalized Story Adventures for Kids" },
+      { title: "TeretVerse — Personalized Story Adventures for Kids" },
       { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: "WonderTales AI — Where Every Child Becomes the Hero" },
+      { property: "og:title", content: "TeretVerse — Where Every Child Becomes the Hero" },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -206,7 +206,7 @@ function Index() {
         >
           <a href="#top" className="flex items-center gap-2 font-display text-lg font-extrabold">
             <img src={mascot} alt="" width={36} height={36} className="h-9 w-9" />
-            WonderTales<span className="text-gradient-magic">AI</span>
+            TeretVerse
           </a>
           <div className="hidden items-center gap-7 text-sm font-semibold md:flex">
             <a href="#how" className="hover:text-accent">How it works</a>
@@ -471,7 +471,7 @@ function Index() {
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <div className="flex items-center gap-2 font-display font-extrabold">
             <img src={mascot} alt="" width={32} height={32} loading="lazy" className="h-8 w-8" />
-            WonderTales AI
+            TeretVerse
           </div>
           <p className="text-sm text-muted-foreground">
             Made with care for curious kids · COPPA & GDPR-K aligned · No ads, ever
