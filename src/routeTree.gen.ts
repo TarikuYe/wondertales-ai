@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedChildrenRouteImport } from './routes/_authenticated/children'
 import { Route as AuthenticatedClassroomRouteImport } from './routes/_authenticated/classroom'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedSelectProfileRouteImport } from './routes/_authenticated/select-profile'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -45,6 +46,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSelectProfileRoute =
+  AuthenticatedSelectProfileRouteImport.update({
+    id: '/select-profile',
+    path: '/select-profile',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/children': typeof AuthenticatedChildrenRoute
   '/classroom': typeof AuthenticatedClassroomRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/select-profile': typeof AuthenticatedSelectProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -59,6 +67,7 @@ export interface FileRoutesByTo {
   '/children': typeof AuthenticatedChildrenRoute
   '/classroom': typeof AuthenticatedClassroomRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/select-profile': typeof AuthenticatedSelectProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,12 +77,25 @@ export interface FileRoutesById {
   '/_authenticated/children': typeof AuthenticatedChildrenRoute
   '/_authenticated/classroom': typeof AuthenticatedClassroomRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/select-profile': typeof AuthenticatedSelectProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/children' | '/classroom' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/children'
+    | '/classroom'
+    | '/dashboard'
+    | '/select-profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/children' | '/classroom' | '/dashboard'
+  to:
+    | '/'
+    | '/auth'
+    | '/children'
+    | '/classroom'
+    | '/dashboard'
+    | '/select-profile'
   id:
     | '__root__'
     | '/'
@@ -82,6 +104,7 @@ export interface FileRouteTypes {
     | '/_authenticated/children'
     | '/_authenticated/classroom'
     | '/_authenticated/dashboard'
+    | '/_authenticated/select-profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -134,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/select-profile': {
+      id: '/_authenticated/select-profile'
+      path: '/select-profile'
+      fullPath: '/select-profile'
+      preLoaderRoute: typeof AuthenticatedSelectProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -141,12 +171,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedChildrenRoute: typeof AuthenticatedChildrenRoute
   AuthenticatedClassroomRoute: typeof AuthenticatedClassroomRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedSelectProfileRoute: typeof AuthenticatedSelectProfileRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChildrenRoute: AuthenticatedChildrenRoute,
   AuthenticatedClassroomRoute: AuthenticatedClassroomRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedSelectProfileRoute: AuthenticatedSelectProfileRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -47,6 +47,7 @@ export function useRoles(user: User | null) {
         setLoading(false);
       })
       .catch((error) => {
+        if (!active) return;
         console.error("Error fetching roles:", error);
         setLoading(false);
       });

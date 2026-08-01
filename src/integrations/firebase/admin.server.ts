@@ -1,33 +1,38 @@
-import * as admin from 'firebase-admin';
+import { initializeApp, getApps, getApp, cert, App } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
 
-function createFirebaseAdmin() {
+function createFirebaseAdmin(): App | undefined {
   const serviceAccountStr = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
-  if (!admin.apps.length) {
+  if (getApps().length === 0) {
     if (serviceAccountStr) {
       try {
         const serviceAccount = JSON.parse(serviceAccountStr);
-        return admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
+        return initializeApp({
+          credential: cert(serviceAccount),
         });
       } catch (error) {
         console.error("Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY.", error);
       }
     } else {
       console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is missing. Initializing admin without explicit credentials (requires default credentials in environment).");
-      return admin.initializeApp();
+      return initializeApp();
     }
   }
-  return admin.app();
+  return getApp();
 }
 
-let _firebaseAdmin: ReturnType<typeof createFirebaseAdmin> | undefined;
+let _app: App | undefined;
 
 // Server-side Firebase admin client
-// SECURITY: Only use this for trusted server-side operations, never expose to client code
-export const firebaseAdmin = new Proxy({} as ReturnType<typeof createFirebaseAdmin>, {
-  get(_, prop, receiver) {
-    if (!_firebaseAdmin) _firebaseAdmin = createFirebaseAdmin();
-    return Reflect.get(_firebaseAdmin, prop, receiver);
+export const firebaseAdmin = {
+  auth: () => {
+    if (!_app) _app = createFirebaseAdmin();
+    return getAuth(_app!);
   },
-});
+  firestore: () => {
+    if (!_app) _app = createFirebaseAdmin();
+    return getFirestore(_app!);
+  }
+};

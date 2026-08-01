@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { db } from "@/integrations/firebase/client";
 import { collection, query, where, orderBy, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import { useSession } from "@/hooks/use-auth";
+import { setChildPin } from "@/lib/children";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -130,6 +131,9 @@ function Children() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<ChildRow | null>(null);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [pinOpen, setPinOpen] = useState(false);
+  const [pinChild, setPinChild] = useState<ChildRow | null>(null);
+  const [pinValue, setPinValue] = useState("");
 
   const childrenQuery = useQuery({
     queryKey: ["child-profiles", user?.uid],
@@ -137,13 +141,18 @@ function Children() {
     queryFn: async () => {
       const q = query(
         collection(db, "child_profiles"),
-        where("owner_id", "==", user!.uid),
-        orderBy("created_at", "asc")
+        where("owner_id", "==", user!.uid)
       );
       const snapshot = await getDocs(q);
       const data: ChildRow[] = [];
       snapshot.forEach((doc) => {
         data.push({ id: doc.id, ...doc.data() } as ChildRow);
+      });
+      // Sort in memory to avoid needing a Firestore composite index
+      data.sort((a: any, b: any) => {
+        const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return timeA - timeB;
       });
       return data;
     },
@@ -209,6 +218,21 @@ function Children() {
     },
     onSuccess: () => {
       toast.success("Profile removed");
+      queryClient.invalidateQueries({ queryKey: ["child-profiles"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const pinMutation = useMutation({
+    mutationFn: async (pin: string) => {
+      if (!pinChild) throw new Error("No child selected");
+      await setChildPin({ data: { childId: pinChild.id, pin } });
+    },
+    onSuccess: () => {
+      toast.success("PIN set successfully");
+      setPinOpen(false);
+      setPinChild(null);
+      setPinValue("");
       queryClient.invalidateQueries({ queryKey: ["child-profiles"] });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -308,6 +332,13 @@ function Children() {
                     <div className="flex gap-2 pt-1">
                       <Button variant="soft" size="sm" onClick={() => openEdit(child)}>
                         <Pencil className="size-4" aria-hidden /> Edit
+                      </Button>
+                      <Button variant="soft" size="sm" onClick={() => {
+                        setPinChild(child);
+                        setPinValue("");
+                        setPinOpen(true);
+                      }}>
+                        🔑 Set PIN
                       </Button>
                       <Button
                         variant="ghost"
@@ -465,6 +496,49 @@ function Children() {
                   <Loader2 className="size-4 animate-spin" aria-hidden />
                 )}
                 {editing ? "Save changes" : "Add child"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={pinOpen} onOpenChange={setPinOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-display">
+              Set PIN for {pinChild?.name}
+            </DialogTitle>
+            <DialogDescription>
+              Set a 4 to 6 digit secret PIN for this child's profile.
+            </DialogDescription>
+          </DialogHeader>
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              pinMutation.mutate(pinValue);
+            }}
+          >
+            <div className="space-y-2">
+              <Label htmlFor="child-pin">PIN (4-6 digits)</Label>
+              <Input
+                id="child-pin"
+                type="password"
+                value={pinValue}
+                maxLength={6}
+                onChange={(e) => setPinValue(e.target.value.replace(/[^0-9]/g, ''))}
+                placeholder="1234"
+                required
+              />
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="ghost" onClick={() => setPinOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="hero" disabled={pinMutation.isPending || pinValue.length < 4}>
+                {pinMutation.isPending && (
+                  <Loader2 className="size-4 animate-spin" aria-hidden />
+                )}
+                Save PIN
               </Button>
             </DialogFooter>
           </form>

@@ -7,26 +7,32 @@ export const requireFirebaseAuth = createMiddleware({ type: 'function' }).server
     const request = getRequest();
 
     if (!request?.headers) {
+      console.error("requireFirebaseAuth: No request headers available");
       throw new Error('Unauthorized: No request headers available');
     }
 
     const authHeader = request.headers.get('authorization');
 
     if (!authHeader) {
+      console.error("requireFirebaseAuth: No authorization header provided");
       throw new Error('Unauthorized: No authorization header provided');
     }
 
     if (!authHeader.startsWith('Bearer ')) {
+      console.error("requireFirebaseAuth: Only Bearer tokens are supported");
       throw new Error('Unauthorized: Only Bearer tokens are supported');
     }
 
     const token = authHeader.replace('Bearer ', '');
     if (!token) {
+      console.error("requireFirebaseAuth: No token provided");
       throw new Error('Unauthorized: No token provided');
     }
 
     try {
+      console.log("requireFirebaseAuth: Verifying token...");
       const decodedToken = await firebaseAdmin.auth().verifyIdToken(token);
+      console.log("requireFirebaseAuth: Token verified for uid:", decodedToken.uid);
       
       return next({
         context: {
@@ -35,6 +41,7 @@ export const requireFirebaseAuth = createMiddleware({ type: 'function' }).server
         },
       });
     } catch (error) {
+      console.error("requireFirebaseAuth: Invalid token:", error);
       throw new Error('Unauthorized: Invalid token');
     }
   },

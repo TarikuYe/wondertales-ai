@@ -1,0 +1,22 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Parent users can only read/write their own document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Parent users can only read/write child_profiles documents that belong to them
+    match /child_profiles/{childId} {
+      allow create: if request.auth != null && request.resource.data.owner_id == request.auth.uid;
+      allow read, update, delete: if request.auth != null && resource.data.owner_id == request.auth.uid;
+    }
+
+    // Users can read/write their own roles
+    match /user_roles/{roleId} {
+      allow create: if request.auth != null && request.resource.data.user_id == request.auth.uid;
+      allow read, update, delete: if request.auth != null && resource.data.user_id == request.auth.uid;
+    }
+  }
+}
