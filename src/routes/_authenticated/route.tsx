@@ -5,6 +5,10 @@ import { onAuthStateChanged } from "firebase/auth";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async ({ location }) => {
+    if (typeof window === "undefined") {
+      return { user: null };
+    }
+
     const user = await new Promise((resolve) => {
       const unsubscribe = onAuthStateChanged(auth, (u) => {
         unsubscribe();

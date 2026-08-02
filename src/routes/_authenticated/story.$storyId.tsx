@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import mascot from "@/assets/mascot-wisp.png";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_authenticated/story/$storyId")({
   component: StoryReader,
@@ -34,6 +35,8 @@ function StoryReader() {
   const { storyId } = Route.useParams();
   const navigate = useNavigate();
   const { user } = useSession();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'en';
   
   // Page Navigation State (-1 is Cover Page, pages.length is end page)
   const [pageIndex, setPageIndex] = useState(-1);
@@ -42,8 +45,30 @@ function StoryReader() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speechRate, setSpeechRate] = useState(0.9); // Default slow for kids
   const [activeWordIndex, setActiveWordIndex] = useState<number | null>(null);
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const isAutoPlayingRef = useRef(false);
+
+  // Load browser voices responsively
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const updateVoices = () => {
+      const v = window.speechSynthesis.getVoices();
+      if (v.length > 0) setAvailableVoices(v);
+    };
+    updateVoices();
+    window.speechSynthesis.onvoiceschanged = updateVoices;
+    return () => {
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = null;
+      }
+    };
+  }, []);
+
+  // Translation state
+  const [translatedPages, setTranslatedPages] = useState<Record<number, string>>({});
+  const [isTranslating, setIsTranslating] = useState(false);
+  const translationCacheRef = useRef<Record<string, Record<number, string>>>({});
 
   // Vocabulary Popover State
   const [activeVocab, setActiveVocab] = useState<{ word: string; meaning: string } | null>(null);
@@ -54,7 +79,9 @@ function StoryReader() {
   const [quizScore, setQuizScore] = useState(0);
 
   const stopReading = () => {
-    window.speechSynthesis.cancel();
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
     setIsPlaying(false);
     setActiveWordIndex(null);
   };
@@ -79,6 +106,7 @@ function StoryReader() {
       }, 800);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [pageIndex, story?.pages]);
 
   // Cleanup synthesis on unmount
@@ -90,6 +118,72 @@ function StoryReader() {
 
   const pages = story?.pages || [];
   const currentStoryPage = pageIndex >= 0 && pageIndex < pages.length ? pages[pageIndex] : null;
+
+  // Language code map for MyMemory API and Web Speech API
+  const LANG_MAP: Record<string, { myMemory: string; tts: string }> = {
+    en: { myMemory: 'en', tts: 'en-US' },
+    am: { myMemory: 'am', tts: 'am-ET' },
+    ar: { myMemory: 'ar', tts: 'ar-SA' },
+    fr: { myMemory: 'fr', tts: 'fr-FR' },
+    es: { myMemory: 'es', tts: 'es-ES' },
+    sw: { myMemory: 'sw', tts: 'sw-KE' },
+  };
+  const langConfig = (LANG_MAP[currentLang] ?? LANG_MAP.en)!;
+
+  // Translate a single text via free MyMemory API
+  const translateText = async (text: string, targetLang: string): Promise<string> => {
+    if (targetLang === 'en' || !text) return text;
+    try {
+      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`;
+      const res = await fetch(url);
+      const json = await res.json();
+      if (json?.responseStatus === 200 && json?.responseData?.translatedText) {
+        return json.responseData.translatedText;
+      }
+    } catch {
+      // silently fall back to English
+    }
+    return text;
+  };
+
+  // Auto-translate story pages when language changes
+  useEffect(() => {
+    if (!story?.pages || currentLang === 'en') {
+      setTranslatedPages({});
+      return;
+    }
+    // Check cache
+    if (translationCacheRef.current[currentLang]) {
+      setTranslatedPages(translationCacheRef.current[currentLang]);
+      return;
+    }
+    let cancelled = false;
+    const run = async () => {
+      setIsTranslating(true);
+      const result: Record<number, string> = {};
+      const targetCode = LANG_MAP[currentLang]?.myMemory || currentLang;
+      // Translate visible page + surrounding pages first, then rest
+      for (let i = 0; i < story.pages.length; i++) {
+        if (cancelled) break;
+        result[i] = await translateText(String(story.pages[i]?.text ?? ''), targetCode);
+      }
+      if (!cancelled) {
+        translationCacheRef.current[currentLang] = result;
+        setTranslatedPages(result);
+        setIsTranslating(false);
+      }
+    };
+    run();
+    return () => { cancelled = true; };
+  }, [currentLang, story?.id]);
+
+  // Get the display text for the current page (translated or original)
+  const getDisplayText = (pageIdx: number): string => {
+    if (currentLang === 'en' || !translatedPages[pageIdx]) {
+      return pages[pageIdx]?.text || '';
+    }
+    return translatedPages[pageIdx];
+  };
 
   // Text highlighting parsing
   const renderInteractiveText = (text: string) => {
@@ -127,26 +221,28 @@ function StoryReader() {
 
   // TTS playback engine
   const startReading = () => {
-    if (!currentStoryPage) return;
+    if (!currentStoryPage || typeof window === "undefined" || !("speechSynthesis" in window)) return;
     
     stopReading();
 
-    const ttsText = currentStoryPage.text;
+    // Use translated text if available, otherwise fallback to original
+    const ttsText = currentLang !== 'en' && translatedPages[pageIndex]
+      ? translatedPages[pageIndex]
+      : currentStoryPage.text;
+
+    if (!ttsText) return;
+
     const utterance = new SpeechSynthesisUtterance(ttsText);
     utteranceRef.current = utterance;
     
     utterance.rate = speechRate;
-    utterance.lang = "en-US"; // Fallback, could check child preferences later
 
     // Custom voice handling based on user selection during generation
     const selectedVoice = story?.generationOptions?.voice;
+    let isMale = false;
+    let pitch = 1.0;
+
     if (selectedVoice) {
-      const voices = window.speechSynthesis.getVoices();
-      
-      let isMale = false;
-      let pitch = 1.0;
-      
-      // Map the voice selection to pitch, rate, and gender heuristics
       switch (selectedVoice) {
         case "Grandmother":
           isMale = false;
@@ -171,34 +267,38 @@ function StoryReader() {
           pitch = 0.7;
           break;
         case "Robot":
-          pitch = 0.1; // Extremely flat pitch for a robotic effect
+          pitch = 0.1;
           break;
         default:
           pitch = 1.0;
       }
-      
       utterance.pitch = pitch;
+    }
+
+    // Pick best voice and align language to avoid speech synthesis error
+    const voicesList = availableVoices.length > 0 ? availableVoices : window.speechSynthesis.getVoices();
+    const ttsPrefix = ((langConfig.tts ?? 'en-US').split('-')[0]) ?? 'en';
+    const langVoice = voicesList.find(v => v.lang.toLowerCase().startsWith(ttsPrefix.toLowerCase()));
+
+    if (langVoice && currentLang !== 'en') {
+      utterance.voice = langVoice;
+      utterance.lang = langVoice.lang;
+    } else {
+      const maleKeywords = ['male', 'david', 'alex', 'daniel', 'mark', 'arthur'];
+      const femaleKeywords = ['female', 'zira', 'samantha', 'victoria', 'karen', 'susan'];
+      const keywords = isMale ? maleKeywords : femaleKeywords;
       
-      // Try to find a matching voice by gender keywords (browser dependent)
-      if (voices.length > 0) {
-        let bestVoice = voices.find(v => v.lang.startsWith("en-")); // Default to first English voice
-        
-        const maleKeywords = ["male", "david", "alex", "daniel", "mark", "arthur"];
-        const femaleKeywords = ["female", "zira", "samantha", "victoria", "karen", "susan"];
-        const targetKeywords = isMale ? maleKeywords : femaleKeywords;
-        
-        const matchingVoice = voices.find(v => {
-          if (!v.lang.startsWith("en-")) return false;
-          const nameLower = v.name.toLowerCase();
-          return targetKeywords.some(kw => nameLower.includes(kw));
-        });
-        
-        if (matchingVoice) {
-          bestVoice = matchingVoice;
-        }
-        if (bestVoice) {
-          utterance.voice = bestVoice;
-        }
+      const genderedVoice = voicesList.find(v =>
+        v.lang.toLowerCase().startsWith('en') && keywords.some(kw => v.name.toLowerCase().includes(kw))
+      );
+      const anyEnglish = voicesList.find(v => v.lang.toLowerCase().startsWith('en'));
+      const fallbackVoice = genderedVoice || anyEnglish || (voicesList.length > 0 ? voicesList[0] : null);
+
+      if (fallbackVoice) {
+        utterance.voice = fallbackVoice;
+        utterance.lang = fallbackVoice.lang;
+      } else {
+        utterance.lang = langConfig.tts;
       }
     }
 
@@ -212,9 +312,19 @@ function StoryReader() {
       }
     };
 
+    const startTime = Date.now();
+
     utterance.onend = () => {
       setIsPlaying(false);
       setActiveWordIndex(null);
+      const duration = Date.now() - startTime;
+
+      // If speech finished in under 500ms, it failed or skipped — do NOT auto-advance
+      if (duration < 500) {
+        isAutoPlayingRef.current = false;
+        return;
+      }
+
       if (isAutoPlayingRef.current) {
         setPageIndex(prev => {
           if (prev < pages.length - 1) {
@@ -227,13 +337,21 @@ function StoryReader() {
       }
     };
 
-    utterance.onerror = () => {
+    utterance.onerror = (err) => {
+      console.warn("TTS utterance error:", err);
       setIsPlaying(false);
       setActiveWordIndex(null);
+      isAutoPlayingRef.current = false;
     };
 
     setIsPlaying(true);
-    window.speechSynthesis.speak(utterance);
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.error("speechSynthesis.speak error:", err);
+      setIsPlaying(false);
+      isAutoPlayingRef.current = false;
+    }
   };
 
 
@@ -317,7 +435,7 @@ function StoryReader() {
           onClick={() => navigate({ to: "/" })}
         >
           <ArrowLeft className="size-4" />
-          Back to Shelf
+          {t('reader.back')}
         </Button>
         <span className="font-display font-bold text-sm text-indigo-300 drop-shadow-sm select-none">
           {story?.title || (isLoading ? "Loading..." : "Storybook")}
@@ -495,9 +613,23 @@ function StoryReader() {
               {/* Right Side: Page Text */}
               <div className="p-8 md:p-12 flex flex-col justify-between text-left">
                 <div className="flex-1 flex items-center">
-                  <p className="font-display text-xl md:text-2xl leading-relaxed text-foreground font-medium tracking-wide">
-                    {renderInteractiveText(currentStoryPage.text)}
-                  </p>
+                  {isTranslating && !translatedPages[pageIndex] ? (
+                    <div className="flex flex-col items-center justify-center w-full gap-3 text-center">
+                      <Loader2 className="animate-spin size-8 text-primary" />
+                      <p className="text-sm text-muted-foreground">
+                        {currentLang === 'am' ? 'በመተርጎም ላይ...' :
+                         currentLang === 'ar' ? 'جارٍ الترجمة...' :
+                         currentLang === 'fr' ? 'Traduction en cours...' :
+                         currentLang === 'es' ? 'Traduciendo...' :
+                         currentLang === 'sw' ? 'Inatafsiriwa...' :
+                         'Translating...'}
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="font-display text-xl md:text-2xl leading-relaxed text-foreground font-medium tracking-wide">
+                      {renderInteractiveText(getDisplayText(pageIndex))}
+                    </p>
+                  )}
                 </div>
 
                 {/* Page Action Bar (Audio controls) */}
@@ -508,11 +640,12 @@ function StoryReader() {
                       size="icon"
                       className="rounded-full bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 size-11"
                       onClick={togglePlayback}
+                      disabled={isTranslating && !translatedPages[pageIndex]}
                     >
                       {isPlaying ? <Pause className="size-5 fill-primary" /> : <Play className="size-5 fill-primary" />}
                     </Button>
                     <span className="text-xs text-muted-foreground font-semibold select-none">
-                      {isPlaying ? "Narration Playing" : "Tap to Listen"}
+                      {isPlaying ? t('reader.pause') : t('reader.play')}
                     </span>
                   </div>
 

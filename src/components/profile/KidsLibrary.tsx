@@ -8,6 +8,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { BookOpen, Sparkles, LogOut, Loader2, Star, ShieldAlert } from 'lucide-react';
 import mascot from '@/assets/mascot-wisp.png';
 import { useSession } from '@/hooks/use-auth';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher';
 
 interface KidsLibraryProps {
   activeChildId: string;
@@ -16,6 +18,7 @@ interface KidsLibraryProps {
 export function KidsLibrary({ activeChildId }: KidsLibraryProps) {
   const navigate = useNavigate();
   const { user } = useSession();
+  const { t } = useTranslation();
   const [showParentGate, setShowParentGate] = useState(false);
   const [gateQuestion, setGateQuestion] = useState({ num1: 0, num2: 0, answer: 0 });
   const [gateInput, setGateInput] = useState('');
@@ -91,20 +94,21 @@ export function KidsLibrary({ activeChildId }: KidsLibraryProps) {
             <span className="text-4xl filter drop-shadow-md select-none">{childAvatar}</span>
             <div>
               <h1 className="font-display text-2xl font-bold tracking-wide text-amber-300">
-                Welcome back, {childName}!
+                {t('dashboard.welcomeBack', { name: childName })}
               </h1>
-              <p className="text-xs text-indigo-200">Ready for another bedtime adventure?</p>
+              <p className="text-xs text-indigo-200">{t('dashboard.readyForAdventure')}</p>
             </div>
           </div>
           
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <Button
               variant="ghost"
               className="text-xs hover:bg-white/10 text-indigo-200 hover:text-white gap-2"
               onClick={() => navigate({ to: '/vocabulary' })}
             >
               <Sparkles className="size-4 text-amber-300" />
-              Vocab Vault
+              {t('nav.vocabVault')}
             </Button>
 
             <Button
@@ -113,7 +117,7 @@ export function KidsLibrary({ activeChildId }: KidsLibraryProps) {
               onClick={startParentGate}
             >
               <LogOut className="size-4" />
-              Switch Profile
+              {t('nav.switchProfile')}
             </Button>
           </div>
         </div>
@@ -129,8 +133,8 @@ export function KidsLibrary({ activeChildId }: KidsLibraryProps) {
               <Star className="size-8 fill-amber-500 text-amber-500 animate-pulse" />
             </div>
             <div>
-              <h3 className="font-display text-lg font-bold text-indigo-950">Bedtime Reading Routine</h3>
-              <p className="text-sm text-muted-foreground">Read a story tonight to keep your streak going! 🔥 3 days</p>
+              <h3 className="font-display text-lg font-bold text-indigo-950">{t('dashboard.bedtimeRoutine')}</h3>
+              <p className="text-sm text-muted-foreground">{t('dashboard.streakMsg')} 🔥 {t('dashboard.days', { count: 3 })}</p>
             </div>
           </div>
           <Button 
@@ -139,7 +143,7 @@ export function KidsLibrary({ activeChildId }: KidsLibraryProps) {
             onClick={() => navigate({ to: '/create-story' })}
           >
             <Sparkles className="size-5 fill-indigo-950" />
-            Create a New Story
+            {t('dashboard.createNewStory')}
           </Button>
         </div>
 
@@ -147,7 +151,7 @@ export function KidsLibrary({ activeChildId }: KidsLibraryProps) {
         <div className="relative">
           <h2 className="font-display text-2xl font-bold mb-6 text-indigo-950 flex items-center gap-2">
             <BookOpen className="size-6 text-indigo-900" />
-            Your Bookshelf
+            {t('dashboard.yourBookshelf')}
           </h2>
 
           {childStories.length > 0 ? (
@@ -193,7 +197,7 @@ export function KidsLibrary({ activeChildId }: KidsLibraryProps) {
                         </h4>
                         <div className="mt-1 flex items-center justify-between">
                           <p className="text-[10px] text-indigo-200/90 font-medium">
-                            {story.status === 'generating' ? 'Writing...' : 'Tap to read'}
+                            {story.status === 'generating' ? 'Writing...' : t('dashboard.tapToRead')}
                           </p>
                           {story.status === 'generating' && (
                             <Loader2 className="animate-spin size-3 text-amber-400" />

@@ -1,0 +1,240 @@
+{
+  "nav": {
+    "bookshelf": "Bibliothèque",
+    "createStory": "Créer une histoire",
+    "vocabVault": "Coffre de mots",
+    "switchProfile": "Changer de profil",
+    "logout": "Déconnexion"
+  },
+  "dashboard": {
+    "welcomeBack": "Bon retour, {{name}}!",
+    "readyForAdventure": "Prêt pour une nouvelle aventure au coucher ?",
+    "bedtimeRoutine": "Routine de lecture",
+    "streakMsg": "Lisez une histoire ce soir pour maintenir votre série !",
+    "days": "{{count}} jours",
+    "createNewStory": "Créer une nouvelle histoire",
+    "yourBookshelf": "Votre bibliothèque",
+    "tapToRead": "Appuyez pour lire"
+  },
+  "landing": {
+    "signIn": "Se connecter",
+    "startFree": "Essayer gratuitement",
+    "heroTitle": "Où chaque enfant devient le héros",
+    "heroDesc": "Histoires personnalisées et magnifiquement illustrées générées instantanément. Améliorez la lecture et la confiance avec des aventures magiques mettant en vedette votre enfant.",
+    "createFirst": "Créez votre première histoire",
+    "watchDemo": "Voir la démo",
+    "howItWorks": "Comment ça marche",
+    "library": "Bibliothèque",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "coppaBadge": "Conforme COPPA & GDPR-K dès la conception",
+    "demoBtn": "Essayer la démo gratuite",
+    "noCardNote": "Pas de carte requise · Pas de pub · Contrôlé par les parents",
+    "benefits": {
+      "b1": "de mots en plus appris quand les enfants sont les héros",
+      "b2": "pages adaptées à l'âge par histoire, avec quiz et vocabulaire",
+      "b3": "publicités, traqueurs ou chat entre enfants. Jamais."
+    },
+    "howSection": {
+      "title": "Une histoire du soir en trois étapes",
+      "step": "Étape",
+      "s1Title": "Parlez-nous de votre enfant",
+      "s1Body": "Nom, âge, animal préféré, niveau de lecture et leçon souhaitée.",
+      "s2Title": "Nous illustrons chaque page",
+      "s2Body": "Un design de personnage verrouillé garde le héros identique de la page 1 à 40.",
+      "s3Title": "Appuyez sur lecture et suivez",
+      "s3Body": "Une narration expressive surligne chaque mot — ou utilisez votre propre voix."
+    },
+    "librarySection": {
+      "title": "Une bibliothèque qui grandit avec eux",
+      "desc": "Plus de vingt mondes, des dinosaures à la gestion des émotions."
+    },
+    "stylesSection": {
+      "title": "Huit styles d'illustration, un héros constant",
+      "desc": "Un modèle visuel conserve les personnages identiques sur chaque page."
+    },
+    "voicesSection": {
+      "title": "Une narration douce pour s'endormir",
+      "desc": "Voix distinctes, sons ambiants, vitesse ajustable et suivi mot à mot."
+    },
+    "testimonialsSection": {
+      "title": "Aimé par les parents, approuvé par les enseignants"
+    },
+    "pricingSection": {
+      "title": "Des tarifs simples pour toute la famille",
+      "mostLoved": "Le plus populaire",
+      "forever": "pour toujours",
+      "perMonth": "/mois",
+      "perClassroom": "par classe"
+    },
+    "safetySection": {
+      "title": "La sécurité n'est pas une option. C'est la base.",
+      "item1": "Pas de chat entre enfants",
+      "item2": "Zéro publicité et aucun traçage",
+      "item3": "Accord parental requis pour les achats et partages",
+      "item4": "Génération modérée et sécurisée"
+    },
+    "faqSection": {
+      "title": "Questions des parents"
+    },
+    "footer": {
+      "tagline": "Fait avec amour pour les enfants curieux · Sans aucune publicité"
+    }
+  },
+  "createStory": {
+    "title": "Créer une histoire magique",
+    "settings": "Paramètres de l'histoire",
+    "desc": "Personnalisez l'aventure de votre enfant.",
+    "whichChild": "Pour quel enfant est cette histoire ?",
+    "selectChild": "Sélectionnez un profil",
+    "noChild": "Aucun profil d'enfant trouvé.",
+    "createOne": "Créez-en un d'abord",
+    "genre": "Genre de l'histoire",
+    "selectGenre": "Sélectionnez un genre",
+    "theme": "Thème personnalisé",
+    "optional": "(Optionnel)",
+    "themePlaceholder": "ex: Une forêt magique où les arbres murmurent des secrets...",
+    "lesson": "Morale ou leçon",
+    "lessonPlaceholder": "ex: Partager cest aimer",
+    "style": "Style d'illustration",
+    "selectStyle": "Sélectionnez un style",
+    "voice": "Voix de narration",
+    "selectVoice": "Sélectionnez une voix",
+    "cancel": "Annuler",
+    "generating": "Création magique...",
+    "create": "Créer l'histoire"
+  },
+  "vocab": {
+    "backToBookshelf": "Retour à la bibliothèque",
+    "vaultTitle": "Coffre de mots de {{name}}",
+    "wordsCount": "{{count}} Mots",
+    "opening": "Ouverture du coffre de mots...",
+    "gathering": "Rassemblement de tous vos mots magiques et badges!",
+    "wordBank": "Banque de mots",
+    "flashcards": "Entraînement aux cartes",
+    "badges": "Badges",
+    "from": "De :",
+    "noWordsTitle": "Aucun mot débloqué pour l'instant!",
+    "noWordsDesc": "Lisez des histoires dans votre bibliothèque pour découvrir des mots magiques!",
+    "exploreStories": "Explorer les histoires 📚",
+    "listenWord": "Écouter le mot",
+    "cardProgress": "Carte {{current}} sur {{total}} · Appuyez pour tourner",
+    "cardCategory": "Carte de vocabulaire",
+    "tapToReveal": "Appuyez n'importe où pour voir la définition 🔄",
+    "definition": "Définition",
+    "fromStory": "De l'histoire :",
+    "needPractice": "Besoin de pratiquer 💡",
+    "gotIt": "Compris! 👍",
+    "noFlashcards": "Aucun mot disponible pour le moment.",
+    "unlocked": "Débloqué 🎉",
+    "locked": "Verrouillé 🔒",
+    "badge1Title": "Chercheur de mots",
+    "badge1Desc": "1 mot découvert",
+    "badge2Title": "Explorateur d'histoires",
+    "badge2Desc": "5 mots découverts",
+    "badge3Title": "Sorcier des mots",
+    "badge3Desc": "10 mots découverts",
+    "badge4Title": "Grand Erudit",
+    "badge4Desc": "20 mots découverts"
+  },
+  "reader": {
+    "back": "Retour",
+    "play": "Lecture",
+    "pause": "Pause",
+    "speed": "Vitesse",
+    "highlighting": "Surlignage",
+    "page": "Page {{current}} sur {{total}}",
+    "prevPage": "Page précédente",
+    "nextPage": "Page suivante",
+    "vocabWords": "Mots de vocabulaire sur cette page",
+    "listen": "Écouter"
+  },
+  "categories": {
+    "Bedtime": "Avant-lit",
+    "Adventure": "Aventure",
+    "Animals": "Animaux",
+    "Space": "Espace",
+    "Ocean": "Océan",
+    "Dinosaurs": "Dinosaures",
+    "WorldFolktales": "Contes du monde",
+    "STEM": "Sciences",
+    "Kindness": "Gentillesse",
+    "BigFeelings": "Grandes émotions",
+    "Friendship": "Amitié",
+    "HealthyHabits": "Bonnes habitudes"
+  },
+  "miniDemo": {
+    "title": "Essayez une mini-histoire — sans inscription",
+    "desc": "Trois petits choix, un conte instantané. La plateforme complète écrit 12–40 pages illustrées et narrées.",
+    "childName": "Prénom de l'enfant",
+    "favoriteAnimal": "Animal favori",
+    "lesson": "Leçon",
+    "weave": "Tisser mon histoire",
+    "startOver": "Recommencer",
+    "placeholder": "Votre histoire apparaît ici — sûre, adaptée à l'âge et prête à être lue à voix haute.",
+    "animals": {
+      "Elephant": "Éléphant",
+      "Fox": "Renard",
+      "Dolphin": "Dauphin",
+      "Owl": "Hibou"
+    },
+    "themes": {
+      "Kindness": "Gentillesse",
+      "Curiosity": "Curiosité",
+      "Bravery": "Bravoure"
+    }
+  },
+  "plans": {
+    "free": {
+      "name": "Gratuit",
+      "note": "pour toujours",
+      "cta": "Commencer gratuitement",
+      "f1": "5 histoires par mois",
+      "f2": "Narration standard",
+      "f3": "2 styles d'illustration",
+      "f4": "1 profil enfant"
+    },
+    "premium": {
+      "name": "Famille Premium",
+      "note": "/mois",
+      "cta": "Essai 14 jours gratuit",
+      "badge": "Le plus populaire",
+      "f1": "Histoires & livres audio illimités",
+      "f2": "Toutes les voix premium + clonage vocal",
+      "f3": "Mode hors ligne & activités imprimables",
+      "f4": "Jusqu'à 6 profils enfants"
+    },
+    "teacher": {
+      "name": "Enseignant & École",
+      "note": "par classe",
+      "cta": "Nous contacter",
+      "f1": "Classes & affectation en bloc",
+      "f2": "Correspondance avec le programme",
+      "f3": "Rapports de progrès & vocabulaire",
+      "f4": "Mode sécurisé en classe"
+    }
+  },
+  "faqs": {
+    "q1": "Est-ce sûr pour mon enfant?",
+    "a1": "Chaque histoire passe par un pipeline de sécurité en trois étapes: filtrage des invites avant génération, modération pendant la génération, et une file d'attente de révision avant d'atteindre l'appareil d'un enfant.",
+    "q2": "Les enfants ont-ils leurs propres connexions?",
+    "a2": "Non. Les parents et les enseignants détiennent le compte; les enfants se connectent avec un PIN ou en tapant sur leur avatar sur un appareil partagé.",
+    "q3": "Mon enfant peut-il apparaître comme personnage?",
+    "a3": "Oui — en tant que personnage illustré construit à partir des détails que vous fournissez. Nous ne produisons jamais d'images photo-réalistes d'un enfant.",
+    "q4": "Quelles langues sont prises en charge?",
+    "a4": "Anglais, Amharique, Français, Arabe (avec support RTL complet), Espagnol et Swahili — commutable dans l'application à tout moment.",
+    "q5": "Qu'en est-il de l'accessibilité?",
+    "a5": "Basculement de police dyslexie-amical, taille de texte réglable, palettes pour daltoniens, sous-titres, navigation au clavier complète et support mouvement réduit."
+  },
+  "testimonials": {
+    "t1q": "Mon fils demande \"celui où je chevauche la baleine des nuages\" chaque nuit. Il lit des mots qu'il ne pouvait pas toucher il y a deux mois.",
+    "t1name": "Marta B.",
+    "t1role": "Parent d'un enfant de 6 ans",
+    "t2q": "J'attribue une histoire par niveau de lecture et obtiens des rapports de vocabulaire le lundi matin. Ça a remplacé trois fiches de travail.",
+    "t2name": "M. Okonkwo",
+    "t2role": "Enseignant de 2e année",
+    "t3q": "La narration dans ma propre voix signifiait que l'heure du coucher se passait bien même quand j'étais en tournée. Ça vaut l'abonnement à lui seul.",
+    "t3name": "Daniel R.",
+    "t3role": "Parent de jumeaux, 4 ans"
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "nav": {
+    "bookshelf": "Bookshelf",
+    "createStory": "Create Story",
+    "vocabVault": "Vocab Vault",
+    "switchProfile": "Switch Profile",
+    "logout": "Log Out"
+  },
+  "dashboard": {
+    "welcomeBack": "Welcome back, {{name}}!",
+    "readyForAdventure": "Ready for another bedtime adventure?",
+    "bedtimeRoutine": "Bedtime Reading Routine",
+    "streakMsg": "Read a story tonight to keep your streak going!",
+    "days": "{{count}} days",
+    "createNewStory": "Create a New Story",
+    "yourBookshelf": "Your Bookshelf",
+    "tapToRead": "Tap to read"
+  },
+  "landing": {
+    "signIn": "Sign in",
+    "startFree": "Start free",
+    "heroTitle": "Where Every Child Becomes the Hero",
+    "heroDesc": "Personalized, beautifully illustrated stories generated instantly. Boost reading skills and confidence with magical adventures starring your child.",
+    "createFirst": "Create your first story",
+    "watchDemo": "Watch Demo",
+    "howItWorks": "How it works",
+    "library": "Library",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "coppaBadge": "COPPA & GDPR-K by design",
+    "demoBtn": "Try the free demo",
+    "noCardNote": "No card required · No ads · Parent-controlled from day one",
+    "benefits": {
+      "b1": "more words learned when children read a story they star in",
+      "b2": "age-scaled pages per story, with quizzes and vocabulary",
+      "b3": "ads, trackers, or child-to-child chat. Ever."
+    },
+    "howSection": {
+      "title": "Three taps to a bedtime story",
+      "step": "Step",
+      "s1Title": "Tell us about your child",
+      "s1Body": "Name, age, favorite animal, reading level and the lesson you want tonight's story to carry.",
+      "s2Title": "We illustrate every page",
+      "s2Body": "One locked character design keeps your hero looking the same from page 1 to page 40.",
+      "s3Title": "Press play and read along",
+      "s3Body": "Expressive narration highlights each word — or use your own recorded voice."
+    },
+    "librarySection": {
+      "title": "A library that grows with them",
+      "desc": "Twenty-plus worlds, from dinosaurs to emotional literacy. Faith and folktale collections are opt-in and filterable by parents."
+    },
+    "stylesSection": {
+      "title": "Eight illustration styles, one consistent hero",
+      "desc": "A locked visual seed keeps characters and settings identical across every page, with a QA pass that catches drift before publishing."
+    },
+    "voicesSection": {
+      "title": "Narration worth falling asleep to",
+      "desc": "Distinct character voices, ambient sound layers, adjustable speed, sleep timer — and word-level highlighting that follows along as your child reads."
+    },
+    "testimonialsSection": {
+      "title": "Loved by parents, trusted by teachers"
+    },
+    "pricingSection": {
+      "title": "Simple, family-sized pricing",
+      "mostLoved": "Most loved",
+      "forever": "forever",
+      "perMonth": "/month",
+      "perClassroom": "per classroom"
+    },
+    "safetySection": {
+      "title": "Safety isn't a feature. It's the foundation.",
+      "item1": "No chat or messaging between children",
+      "item2": "Zero ads and no third-party tracking",
+      "item3": "Parent approval for exports, sharing and purchases",
+      "item4": "Every AI generation logged and moderation-reviewable"
+    },
+    "faqSection": {
+      "title": "Questions parents ask"
+    },
+    "footer": {
+      "tagline": "Made with care for curious kids · COPPA & GDPR-K aligned · No ads, ever"
+    }
+  },
+  "createStory": {
+    "title": "Create a magical story",
+    "settings": "Story Settings",
+    "desc": "Customize the adventure for your child.",
+    "whichChild": "Which child is this story for?",
+    "selectChild": "Select a child profile",
+    "noChild": "No child profiles found.",
+    "createOne": "Create one first",
+    "genre": "Story Genre",
+    "selectGenre": "Select a genre",
+    "theme": "Custom Theme / Prompt",
+    "optional": "(Optional)",
+    "themePlaceholder": "e.g. A magical forest where the trees whisper secrets...",
+    "lesson": "Moral or Lesson",
+    "lessonPlaceholder": "e.g. Sharing is caring",
+    "style": "Illustration Style",
+    "selectStyle": "Select style",
+    "voice": "Narration Voice",
+    "selectVoice": "Select voice",
+    "cancel": "Cancel",
+    "generating": "Generating magic...",
+    "create": "Create Story"
+  },
+  "vocab": {
+    "backToBookshelf": "Back to Bookshelf",
+    "vaultTitle": "{{name}}'s Vocabulary Vault",
+    "wordsCount": "{{count}} Words",
+    "opening": "Opening Vocabulary Vault...",
+    "gathering": "Gathering all your magic words and badges!",
+    "wordBank": "Word Bank",
+    "flashcards": "Flashcards Practice",
+    "badges": "Badges",
+    "from": "From:",
+    "noWordsTitle": "No Words Unlocked Yet!",
+    "noWordsDesc": "Read stories in your library to discover magic vocabulary words and collect them here in your vault!",
+    "exploreStories": "Explore Stories 📚",
+    "listenWord": "Listen to word",
+    "cardProgress": "Card {{current}} of {{total}} · Tap card to flip",
+    "cardCategory": "Vocabulary Flashcard",
+    "tapToReveal": "Tap anywhere to reveal definition 🔄",
+    "definition": "Definition",
+    "fromStory": "From story:",
+    "needPractice": "Need Practice 💡",
+    "gotIt": "Got It! 👍",
+    "noFlashcards": "No words available for practice yet. Read stories to unlock flashcards!",
+    "unlocked": "Unlocked 🎉",
+    "locked": "Locked 🔒",
+    "badge1Title": "Word Finder",
+    "badge1Desc": "Discovered 1 vocabulary word",
+    "badge2Title": "Story Explorer",
+    "badge2Desc": "Discovered 5 vocabulary words",
+    "badge3Title": "Vocab Wizard",
+    "badge3Desc": "Discovered 10 vocabulary words",
+    "badge4Title": "Master Scholar",
+    "badge4Desc": "Discovered 20 vocabulary words"
+  },
+  "reader": {
+    "back": "Back",
+    "play": "Play",
+    "pause": "Pause",
+    "speed": "Speed",
+    "highlighting": "Highlighting",
+    "page": "Page {{current}} of {{total}}",
+    "prevPage": "Previous Page",
+    "nextPage": "Next Page",
+    "vocabWords": "Vocabulary Words on this Page",
+    "listen": "Listen"
+  },
+  "categories": {
+    "Bedtime": "Bedtime",
+    "Adventure": "Adventure",
+    "Animals": "Animals",
+    "Space": "Space",
+    "Ocean": "Ocean",
+    "Dinosaurs": "Dinosaurs",
+    "WorldFolktales": "World Folktales",
+    "STEM": "STEM",
+    "Kindness": "Kindness",
+    "BigFeelings": "Big Feelings",
+    "Friendship": "Friendship",
+    "HealthyHabits": "Healthy Habits"
+  },
+  "miniDemo": {
+    "title": "Try a mini-story — no signup",
+    "desc": "Three little choices, one instant tale. The full platform writes 12–40 illustrated, narrated pages.",
+    "childName": "Child's first name",
+    "favoriteAnimal": "Favorite animal",
+    "lesson": "Lesson",
+    "weave": "Weave my story",
+    "startOver": "Start over",
+    "placeholder": "Your story appears here — safe, age-tuned, and ready to be read aloud.",
+    "animals": {
+      "Elephant": "Elephant",
+      "Fox": "Fox",
+      "Dolphin": "Dolphin",
+      "Owl": "Owl"
+    },
+    "themes": {
+      "Kindness": "Kindness",
+      "Curiosity": "Curiosity",
+      "Bravery": "Bravery"
+    }
+  },
+  "plans": {
+    "free": {
+      "name": "Free",
+      "note": "forever",
+      "cta": "Start free",
+      "f1": "5 stories a month",
+      "f2": "Standard narration",
+      "f3": "2 illustration styles",
+      "f4": "1 child profile"
+    },
+    "premium": {
+      "name": "Family Premium",
+      "note": "/month",
+      "cta": "Try 14 days free",
+      "badge": "Most loved",
+      "f1": "Unlimited stories & audiobooks",
+      "f2": "All premium voices + voice cloning",
+      "f3": "Offline mode & printable activities",
+      "f4": "Up to 6 child profiles"
+    },
+    "teacher": {
+      "name": "Teacher & School",
+      "note": "per classroom",
+      "cta": "Talk to us",
+      "f1": "Classrooms & bulk assignment",
+      "f2": "Curriculum-standard mapping",
+      "f3": "Progress & vocabulary reports",
+      "f4": "Classroom-safe mode"
+    }
+  },
+  "faqs": {
+    "q1": "Is it safe for my child?",
+    "a1": "Every story passes a three-stage safety pipeline: prompt filtering before generation, moderation during generation, and a reviewable flag queue before anything reaches a child's device. There is no chat, no advertising, and no third-party tracking in child-facing views.",
+    "q2": "Do children get their own logins?",
+    "a2": "No. Parents and teachers hold the account; children sign in with a PIN or by tapping their avatar on a shared device. Each profile only ever sees its own content.",
+    "q3": "Can my child appear as a character?",
+    "a3": "Yes — as an illustrated character built from the details you provide. We never produce photo-real images of a child.",
+    "q4": "Which languages are supported?",
+    "a4": "English, Amharic, French, Arabic (with full right-to-left support), Spanish and Swahili, switchable in-app at any time.",
+    "q5": "What about accessibility?",
+    "a5": "Dyslexia-friendly font toggle, adjustable text size and line spacing, color-blind-safe palettes, captions on narration, full keyboard navigation, and reduced-motion support."
+  },
+  "testimonials": {
+    "t1q": "My son asks for ‘the one where I ride the cloud whale’ every single night. He's reading words he couldn't touch two months ago.",
+    "t1name": "Marta B.",
+    "t1role": "Parent of a 6-year-old",
+    "t2q": "I assign a story per reading level and get vocabulary reports on Monday morning. It replaced three worksheets.",
+    "t2name": "Mr. Okonkwo",
+    "t2role": "Grade 2 teacher",
+    "t3q": "The narration in my own voice meant bedtime still happened while I was away on tour. That's worth the subscription alone.",
+    "t3name": "Daniel R.",
+    "t3role": "Parent of twins, age 4"
+  }
+}

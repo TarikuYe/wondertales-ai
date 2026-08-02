@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/integrations/firebase/client";
 import { onAuthStateChanged } from "firebase/auth";
+import "@/lib/i18n";
 
 function NotFoundComponent() {
   return (

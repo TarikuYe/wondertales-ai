@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import mascot from "@/assets/mascot-wisp.png";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_authenticated/vocabulary")({
   component: VocabularyVault,
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/_authenticated/vocabulary")({
 function VocabularyVault() {
   const navigate = useNavigate();
   const { user } = useSession();
+  const { t } = useTranslation();
   const [activeChildId, setActiveChildId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"bank" | "flashcards" | "badges">("bank");
   
@@ -109,10 +111,10 @@ function VocabularyVault() {
   // Badges calculation
   const totalWordsCount = allVocabWords.length;
   const badges = [
-    { title: "Word Finder", desc: "Discovered 1 vocabulary word", icon: "🌱", unlocked: totalWordsCount >= 1 },
-    { title: "Story Explorer", desc: "Discovered 5 vocabulary words", icon: "🧭", unlocked: totalWordsCount >= 5 },
-    { title: "Vocab Wizard", desc: "Discovered 10 vocabulary words", icon: "🧙‍♂️", unlocked: totalWordsCount >= 10 },
-    { title: "Master Scholar", desc: "Discovered 20 vocabulary words", icon: "👑", unlocked: totalWordsCount >= 20 },
+    { title: t('vocab.badge1Title'), desc: t('vocab.badge1Desc'), icon: "🌱", unlocked: totalWordsCount >= 1 },
+    { title: t('vocab.badge2Title'), desc: t('vocab.badge2Desc'), icon: "🧭", unlocked: totalWordsCount >= 5 },
+    { title: t('vocab.badge3Title'), desc: t('vocab.badge3Desc'), icon: "🧙‍♂️", unlocked: totalWordsCount >= 10 },
+    { title: t('vocab.badge4Title'), desc: t('vocab.badge4Desc'), icon: "👑", unlocked: totalWordsCount >= 20 },
   ];
 
   return (
@@ -130,19 +132,19 @@ function VocabularyVault() {
             onClick={() => navigate({ to: "/" })}
           >
             <ArrowLeft className="size-4" />
-            Back to Bookshelf
+            {t('vocab.backToBookshelf')}
           </Button>
 
           <div className="flex items-center gap-2">
             <span className="text-2xl">{childAvatar}</span>
             <span className="font-display font-bold text-amber-300 text-lg">
-              {childName}'s Vocabulary Vault
+              {t('vocab.vaultTitle', { name: childName })}
             </span>
           </div>
 
           <div className="w-24 text-right">
             <span className="inline-block bg-amber-400 text-indigo-950 font-bold text-xs px-2.5 py-1 rounded-full">
-              {totalWordsCount} Words
+              {t('vocab.wordsCount', { count: totalWordsCount })}
             </span>
           </div>
         </div>
@@ -166,8 +168,8 @@ function VocabularyVault() {
               </div>
             </div>
             <div className="p-8 md:p-12 flex flex-col justify-center text-left">
-              <h2 className="font-display text-3xl font-bold leading-tight text-primary mb-4">Opening Vocabulary Vault...</h2>
-              <p className="text-muted-foreground text-sm">Gathering all your magic words and badges!</p>
+              <h2 className="font-display text-3xl font-bold leading-tight text-primary mb-4">{t('vocab.opening')}</h2>
+              <p className="text-muted-foreground text-sm">{t('vocab.gathering')}</p>
             </div>
           </motion.div>
         ) : (
@@ -190,7 +192,7 @@ function VocabularyVault() {
               }`}
             >
               <BookOpen className="size-4" />
-              Word Bank ({allVocabWords.length})
+              {t('vocab.wordBank')} ({allVocabWords.length})
             </button>
 
             <button
@@ -202,7 +204,7 @@ function VocabularyVault() {
               }`}
             >
               <Brain className="size-4" />
-              Flashcards Practice
+              {t('vocab.flashcards')}
             </button>
 
             <button
@@ -214,7 +216,7 @@ function VocabularyVault() {
               }`}
             >
               <Award className="size-4" />
-              Badges ({badges.filter(b => b.unlocked).length}/{badges.length})
+              {t('vocab.badges')} ({badges.filter(b => b.unlocked).length}/{badges.length})
             </button>
           </div>
         </div>
@@ -262,12 +264,12 @@ function VocabularyVault() {
             ) : (
               <div className="text-center py-20 bg-card border border-border rounded-3xl p-8 max-w-md mx-auto shadow-soft">
                 <img src={mascot} alt="Mascot" className="size-20 mx-auto mb-4 animate-float" />
-                <h3 className="font-display text-xl font-bold text-primary mb-2">No Words Unlocked Yet!</h3>
+                <h3 className="font-display text-xl font-bold text-primary mb-2">{t('vocab.noWordsTitle')}</h3>
                 <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                  Read stories in your library to discover magic vocabulary words and collect them here in your vault!
+                  {t('vocab.noWordsDesc')}
                 </p>
                 <Button variant="hero" onClick={() => navigate({ to: "/" })}>
-                  Explore Stories 📚
+                  {t('vocab.exploreStories')}
                 </Button>
                 <style>{`
                   @keyframes float {
@@ -366,14 +368,14 @@ function VocabularyVault() {
                     className="flex-1 font-bold py-6 text-lg"
                     onClick={() => handleNextCard()}
                   >
-                    Need Practice 💡
+                    {t('vocab.needPractice')}
                   </Button>
                   <Button 
                     variant="hero"
                     className="flex-1 font-bold py-6 shadow-xl text-lg border-none"
                     onClick={() => handleNextCard(allVocabWords[currentCardIndex]?.word)}
                   >
-                    Got It! 👍
+                    {t('vocab.gotIt')}
                   </Button>
                 </div>
               </div>
@@ -408,11 +410,11 @@ function VocabularyVault() {
                   <div className="mt-4">
                     {badge.unlocked ? (
                       <span className="inline-block text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-700 px-3 py-1 rounded-full border border-emerald-500/30">
-                        Unlocked 🎉
+                        {t('vocab.unlocked')}
                       </span>
                     ) : (
                       <span className="inline-block text-[10px] font-bold uppercase tracking-wider bg-muted text-muted-foreground px-3 py-1 rounded-full border border-border">
-                        Locked 🔒
+                        {t('vocab.locked')}
                       </span>
                     )}
                   </div>

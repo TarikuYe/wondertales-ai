@@ -1,38 +1,42 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, RotateCcw } from "lucide-react";
-
-const ANIMALS = ["Elephant", "Fox", "Dolphin", "Owl"] as const;
-const THEMES = ["Kindness", "Curiosity", "Bravery"] as const;
-
-function buildStory(name: string, animal: string, theme: string) {
-  const hero = name.trim() || "Amara";
-  return [
-    `Page 1 — On the night the lanterns floated, ${hero} heard a small knock at the window. It was a starlit ${animal.toLowerCase()} with a map made of moonlight.`,
-    `Page 2 — "The Sky Library is losing its stories," whispered the ${animal.toLowerCase()}. "Only someone with real ${theme.toLowerCase()} can bring them home."`,
-    `Page 3 — Together they sailed over paper mountains, and ${hero} learned that ${theme.toLowerCase()} is simply doing the good, small thing — even when nobody is watching.`,
-  ];
-}
+import { useTranslation } from "react-i18next";
 
 export function MiniStoryDemo() {
+  const { t } = useTranslation();
+
+  const ANIMALS_KEYS = ["Elephant", "Fox", "Dolphin", "Owl"] as const;
+  const THEMES_KEYS = ["Kindness", "Curiosity", "Bravery"] as const;
+
   const [name, setName] = useState("");
-  const [animal, setAnimal] = useState<string>(ANIMALS[0]);
-  const [theme, setTheme] = useState<string>(THEMES[0]);
+  const [animalKey, setAnimalKey] = useState<string>(ANIMALS_KEYS[0]);
+  const [themeKey, setThemeKey] = useState<string>(THEMES_KEYS[0]);
   const [pages, setPages] = useState<string[] | null>(null);
+
+  function buildStory(name: string, animal: string, theme: string) {
+    const hero = name.trim() || "Amara";
+    const animalLabel = t(`miniDemo.animals.${animal}`);
+    const themeLabel = t(`miniDemo.themes.${theme}`);
+    return [
+      `Page 1 — On the night the lanterns floated, ${hero} heard a small knock at the window. It was a starlit ${animalLabel.toLowerCase()} with a map made of moonlight.`,
+      `Page 2 — "The Sky Library is losing its stories," whispered the ${animalLabel.toLowerCase()}. "Only someone with real ${themeLabel.toLowerCase()} can bring them home."`,
+      `Page 3 — Together they sailed over paper mountains, and ${hero} learned that ${themeLabel.toLowerCase()} is simply doing the good, small thing — even when nobody is watching.`,
+    ];
+  }
 
   return (
     <div className="grid gap-8 rounded-4xl border border-border bg-card p-6 shadow-lift sm:p-10 lg:grid-cols-2">
       <div>
-        <h3 className="text-2xl font-bold">Try a mini-story — no signup</h3>
+        <h3 className="text-2xl font-bold">{t('miniDemo.title')}</h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Three little choices, one instant tale. The full platform writes 12–40 illustrated,
-          narrated pages.
+          {t('miniDemo.desc')}
         </p>
 
         <div className="mt-6 space-y-5">
           <div>
             <label htmlFor="hero-name" className="text-sm font-semibold">
-              Child&apos;s first name
+              {t('miniDemo.childName')}
             </label>
             <input
               id="hero-name"
@@ -45,54 +49,54 @@ export function MiniStoryDemo() {
           </div>
 
           <fieldset>
-            <legend className="text-sm font-semibold">Favorite animal</legend>
+            <legend className="text-sm font-semibold">{t('miniDemo.favoriteAnimal')}</legend>
             <div className="mt-2 flex flex-wrap gap-2">
-              {ANIMALS.map((a) => (
+              {ANIMALS_KEYS.map((a) => (
                 <button
                   key={a}
                   type="button"
-                  aria-pressed={animal === a}
-                  onClick={() => setAnimal(a)}
+                  aria-pressed={animalKey === a}
+                  onClick={() => setAnimalKey(a)}
                   className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-                    animal === a
+                    animalKey === a
                       ? "border-transparent bg-accent text-accent-foreground"
                       : "border-border bg-background hover:bg-muted"
                   }`}
                 >
-                  {a}
+                  {t(`miniDemo.animals.${a}`)}
                 </button>
               ))}
             </div>
           </fieldset>
 
           <fieldset>
-            <legend className="text-sm font-semibold">Lesson</legend>
+            <legend className="text-sm font-semibold">{t('miniDemo.lesson')}</legend>
             <div className="mt-2 flex flex-wrap gap-2">
-              {THEMES.map((t) => (
+              {THEMES_KEYS.map((th) => (
                 <button
-                  key={t}
+                  key={th}
                   type="button"
-                  aria-pressed={theme === t}
-                  onClick={() => setTheme(t)}
+                  aria-pressed={themeKey === th}
+                  onClick={() => setThemeKey(th)}
                   className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-                    theme === t
+                    themeKey === th
                       ? "border-transparent bg-berry text-berry-foreground"
                       : "border-border bg-background hover:bg-muted"
                   }`}
                 >
-                  {t}
+                  {t(`miniDemo.themes.${th}`)}
                 </button>
               ))}
             </div>
           </fieldset>
 
           <div className="flex flex-wrap gap-3">
-            <Button variant="hero" size="pill" onClick={() => setPages(buildStory(name, animal, theme))}>
-              <Sparkles aria-hidden /> Weave my story
+            <Button variant="hero" size="pill" onClick={() => setPages(buildStory(name, animalKey, themeKey))}>
+              <Sparkles aria-hidden /> {t('miniDemo.weave')}
             </Button>
             {pages && (
               <Button variant="soft" size="pill" onClick={() => setPages(null)}>
-                <RotateCcw aria-hidden /> Start over
+                <RotateCcw aria-hidden /> {t('miniDemo.startOver')}
               </Button>
             )}
           </div>
@@ -121,7 +125,7 @@ export function MiniStoryDemo() {
               📖
             </span>
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-              Your story appears here — safe, age-tuned, and ready to be read aloud.
+              {t('miniDemo.placeholder')}
             </p>
           </div>
         )}

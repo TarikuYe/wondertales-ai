@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { useSession } from "@/hooks/use-auth";
 import { KidsLibrary } from "@/components/profile/KidsLibrary";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import {
   Accordion,
   AccordionContent,
@@ -42,18 +44,18 @@ export const Route = createFileRoute("/")({
 });
 
 const CATEGORIES = [
-  { name: "Bedtime", emoji: "🌙" },
-  { name: "Adventure", emoji: "🧭" },
-  { name: "Animals", emoji: "🦊" },
-  { name: "Space", emoji: "🚀" },
-  { name: "Ocean", emoji: "🐳" },
-  { name: "Dinosaurs", emoji: "🦕" },
-  { name: "World Folktales", emoji: "🌍" },
-  { name: "STEM", emoji: "🔬" },
-  { name: "Kindness", emoji: "💛" },
-  { name: "Big Feelings", emoji: "🫧" },
-  { name: "Friendship", emoji: "🤝" },
-  { name: "Healthy Habits", emoji: "🥕" },
+  { name: "Bedtime", key: "Bedtime", emoji: "🌙" },
+  { name: "Adventure", key: "Adventure", emoji: "🧭" },
+  { name: "Animals", key: "Animals", emoji: "🦊" },
+  { name: "Space", key: "Space", emoji: "🚀" },
+  { name: "Ocean", key: "Ocean", emoji: "🐳" },
+  { name: "Dinosaurs", key: "Dinosaurs", emoji: "🦕" },
+  { name: "World Folktales", key: "WorldFolktales", emoji: "🌍" },
+  { name: "STEM", key: "STEM", emoji: "🔬" },
+  { name: "Kindness", key: "Kindness", emoji: "💛" },
+  { name: "Big Feelings", key: "BigFeelings", emoji: "🫧" },
+  { name: "Friendship", key: "Friendship", emoji: "🤝" },
+  { name: "Healthy Habits", key: "HealthyHabits", emoji: "🥕" },
 ];
 
 const STEPS = [
@@ -203,6 +205,7 @@ function Index() {
   const { session, loading } = useSession();
   const signedIn = !loading && !!session;
   const [activeChildId, setActiveChildId] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setActiveChildId(localStorage.getItem('activeChildId'));
@@ -224,12 +227,13 @@ function Index() {
             TeretVerse
           </a>
           <div className="hidden items-center gap-7 text-sm font-semibold md:flex">
-            <a href="#how" className="hover:text-accent">How it works</a>
-            <a href="#library" className="hover:text-accent">Library</a>
-            <a href="#pricing" className="hover:text-accent">Pricing</a>
-            <a href="#faq" className="hover:text-accent">FAQ</a>
+            <a href="#how" className="hover:text-accent">{t('landing.howItWorks')}</a>
+            <a href="#library" className="hover:text-accent">{t('landing.library')}</a>
+            <a href="#pricing" className="hover:text-accent">{t('landing.pricing')}</a>
+            <a href="#faq" className="hover:text-accent">{t('landing.faq')}</a>
           </div>
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             {signedIn ? (
               <Button variant="hero" size="pill" asChild>
                 <Link to="/dashboard">My dashboard</Link>
@@ -237,10 +241,10 @@ function Index() {
             ) : (
               <>
                 <Button variant="soft" size="pill" asChild className="hidden sm:inline-flex">
-                  <Link to="/auth">Sign in</Link>
+                  <Link to="/auth">{t('landing.signIn')}</Link>
                 </Button>
                 <Button variant="hero" size="pill" asChild>
-                  <Link to="/auth">Start free</Link>
+                  <Link to="/auth">{t('landing.startFree')}</Link>
                 </Button>
               </>
             )}
@@ -255,28 +259,28 @@ function Index() {
           <Section className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
             <div className="animate-rise">
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
-                <ShieldCheck className="size-4 text-meadow" aria-hidden /> COPPA & GDPR-K by design
+                <ShieldCheck className="size-4 text-meadow" aria-hidden /> {t('landing.coppaBadge')}
               </span>
               <h1 className="mt-5 text-5xl font-extrabold leading-[1.05] sm:text-6xl">
-                Where every child becomes the{" "}
-                <span className="text-gradient-magic">hero of their own story</span>
+                {t('landing.heroTitle')}
               </h1>
               <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-                Personalized, illustrated, narrated adventures for ages 3–12 — with vocabulary,
-                quizzes and read-along highlighting woven into every page.
+                {t('landing.heroDesc')}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button variant="hero" size="xl">
-                  <Sparkles aria-hidden /> Create your first story
+                <Button variant="hero" size="xl" asChild>
+                  <Link to="/auth">
+                    <Sparkles aria-hidden /> {t('landing.createFirst')}
+                  </Link>
                 </Button>
                 <Button variant="soft" size="xl" asChild>
                   <a href="#demo">
-                    <BookOpen aria-hidden /> Try the free demo
+                    <BookOpen aria-hidden /> {t('landing.demoBtn')}
                   </a>
                 </Button>
               </div>
               <p className="mt-4 text-sm text-muted-foreground">
-                No card required · No ads · Parent-controlled from day one
+                {t('landing.noCardNote')}
               </p>
             </div>
 
@@ -303,9 +307,13 @@ function Index() {
         {/* Benefits strip */}
         <Section className="!py-12">
           <dl className="grid gap-6 sm:grid-cols-3">
-            {BENEFITS.map((b) => (
+            {[
+              { stat: "3×", label: t('landing.benefits.b1') },
+              { stat: "12–40", label: t('landing.benefits.b2') },
+              { stat: "0", label: t('landing.benefits.b3') },
+            ].map((b, idx) => (
               <div
-                key={b.label}
+                key={idx}
                 className="rounded-3xl border border-border bg-card p-6 shadow-soft"
               >
                 <dt className="text-4xl font-extrabold text-gradient-magic">{b.stat}</dt>
@@ -322,18 +330,22 @@ function Index() {
 
         {/* How it works */}
         <Section id="how">
-          <h2 className="text-center text-4xl font-extrabold">Three taps to a bedtime story</h2>
+          <h2 className="text-center text-4xl font-extrabold">{t('landing.howSection.title')}</h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {STEPS.map((s, i) => (
+            {[
+              { icon: Wand2, title: t('landing.howSection.s1Title'), body: t('landing.howSection.s1Body') },
+              { icon: Palette, title: t('landing.howSection.s2Title'), body: t('landing.howSection.s2Body') },
+              { icon: Headphones, title: t('landing.howSection.s3Title'), body: t('landing.howSection.s3Body') },
+            ].map((s, i) => (
               <div
-                key={s.title}
+                key={i}
                 className="rounded-3xl border border-border bg-card p-7 shadow-soft transition-transform duration-300 hover:-translate-y-1"
               >
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-magic text-primary-foreground">
                   <s.icon aria-hidden />
                 </div>
                 <p className="mt-5 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                  Step {i + 1}
+                  {t('landing.howSection.step')} {i + 1}
                 </p>
                 <h3 className="mt-1 text-xl font-bold">{s.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{s.body}</p>
@@ -344,10 +356,9 @@ function Index() {
 
         {/* Categories */}
         <Section id="library">
-          <h2 className="text-4xl font-extrabold">A library that grows with them</h2>
+          <h2 className="text-4xl font-extrabold">{t('landing.librarySection.title')}</h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            Twenty-plus worlds, from dinosaurs to emotional literacy. Faith and folktale collections
-            are opt-in and filterable by parents.
+            {t('landing.librarySection.desc')}
           </p>
           <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {CATEGORIES.map((c) => (
@@ -356,7 +367,7 @@ function Index() {
                   <span className="text-3xl" aria-hidden>
                     {c.emoji}
                   </span>
-                  <span className="mt-3 block font-bold">{c.name}</span>
+                  <span className="mt-3 block font-bold">{t(`categories.${c.key}`, { defaultValue: c.name })}</span>
                 </button>
               </li>
             ))}
@@ -367,10 +378,9 @@ function Index() {
         <Section className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-4xl border border-border bg-card p-8 shadow-soft">
             <Palette className="text-berry" aria-hidden />
-            <h2 className="mt-4 text-2xl font-bold">Eight illustration styles, one consistent hero</h2>
+            <h2 className="mt-4 text-2xl font-bold">{t('landing.stylesSection.title')}</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              A locked visual seed keeps characters and settings identical across every page, with a
-              QA pass that catches drift before publishing.
+              {t('landing.stylesSection.desc')}
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {STYLES.map((s) => (
@@ -385,10 +395,9 @@ function Index() {
           </div>
           <div className="rounded-4xl border border-border bg-card p-8 shadow-soft">
             <Headphones className="text-lagoon" aria-hidden />
-            <h2 className="mt-4 text-2xl font-bold">Narration worth falling asleep to</h2>
+            <h2 className="mt-4 text-2xl font-bold">{t('landing.voicesSection.title')}</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Distinct character voices, ambient sound layers, adjustable speed, sleep timer — and
-              word-level highlighting that follows along as your child reads.
+              {t('landing.voicesSection.desc')}
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {VOICES.map((v) => (
@@ -405,19 +414,19 @@ function Index() {
 
         {/* Testimonials */}
         <Section>
-          <h2 className="text-4xl font-extrabold">Loved by parents, trusted by teachers</h2>
+          <h2 className="text-4xl font-extrabold">{t('landing.testimonialsSection.title')}</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {TESTIMONIALS.map((t) => (
-              <figure key={t.name} className="rounded-3xl border border-border bg-card p-7 shadow-soft">
+            {(['t1','t2','t3'] as const).map((tk) => (
+              <figure key={tk} className="rounded-3xl border border-border bg-card p-7 shadow-soft">
                 <div className="flex gap-1 text-primary" aria-label="5 out of 5 stars">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="size-4 fill-current" aria-hidden />
                   ))}
                 </div>
-                <blockquote className="mt-4 text-sm leading-relaxed">{t.quote}</blockquote>
+                <blockquote className="mt-4 text-sm leading-relaxed">{t(`testimonials.${tk}q`)}</blockquote>
                 <figcaption className="mt-5 text-sm font-bold">
-                  {t.name}
-                  <span className="block font-normal text-muted-foreground">{t.role}</span>
+                  {t(`testimonials.${tk}name`)}
+                  <span className="block font-normal text-muted-foreground">{t(`testimonials.${tk}role`)}</span>
                 </figcaption>
               </figure>
             ))}
@@ -426,11 +435,15 @@ function Index() {
 
         {/* Pricing */}
         <Section id="pricing">
-          <h2 className="text-center text-4xl font-extrabold">Simple, family-sized pricing</h2>
+          <h2 className="text-center text-4xl font-extrabold">{t('landing.pricingSection.title')}</h2>
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {PLANS.map((p) => (
+            {[
+              { key: 'free', price: '$0', variant: 'soft' as const },
+              { key: 'premium', price: '$12', variant: 'hero' as const, featured: true },
+              { key: 'teacher', price: 'Custom', variant: 'soft' as const },
+            ].map((p) => (
               <div
-                key={p.name}
+                key={p.key}
                 className={`rounded-4xl border bg-card p-8 ${
                   p.featured
                     ? "border-accent shadow-lift lg:-translate-y-3"
@@ -439,24 +452,24 @@ function Index() {
               >
                 {p.featured && (
                   <span className="rounded-full bg-gradient-magic px-3 py-1 text-xs font-bold text-primary-foreground">
-                    Most loved
+                    {t(`plans.${p.key}.badge`)}
                   </span>
                 )}
-                <h3 className="mt-3 text-xl font-bold">{p.name}</h3>
+                <h3 className="mt-3 text-xl font-bold">{t(`plans.${p.key}.name`)}</h3>
                 <p className="mt-3">
                   <span className="text-4xl font-extrabold">{p.price}</span>{" "}
-                  <span className="text-sm text-muted-foreground">{p.note}</span>
+                  <span className="text-sm text-muted-foreground">{t(`plans.${p.key}.note`)}</span>
                 </p>
                 <ul className="mt-6 space-y-3 text-sm">
-                  {p.features.map((f) => (
-                    <li key={f} className="flex gap-2">
+                  {['f1','f2','f3','f4'].map((fk) => (
+                    <li key={fk} className="flex gap-2">
                       <Check className="mt-0.5 size-4 shrink-0 text-meadow" aria-hidden />
-                      {f}
+                      {t(`plans.${p.key}.${fk}`)}
                     </li>
                   ))}
                 </ul>
                 <Button variant={p.variant} size="pill" className="mt-8 w-full">
-                  {p.cta}
+                  {t(`plans.${p.key}.cta`)}
                 </Button>
               </div>
             ))}
@@ -466,15 +479,15 @@ function Index() {
         {/* Safety */}
         <Section>
           <div className="rounded-4xl bg-gradient-magic p-10 text-primary-foreground shadow-lift">
-            <h2 className="text-3xl font-extrabold">Safety isn&apos;t a feature. It&apos;s the foundation.</h2>
+            <h2 className="text-3xl font-extrabold">{t('landing.safetySection.title')}</h2>
             <ul className="mt-6 grid gap-4 sm:grid-cols-2">
               {[
-                "No chat or messaging between children",
-                "Zero ads and no third-party tracking",
-                "Parent approval for exports, sharing and purchases",
-                "Every AI generation logged and moderation-reviewable",
-              ].map((item) => (
-                <li key={item} className="flex gap-2 text-sm font-semibold">
+                t('landing.safetySection.item1'),
+                t('landing.safetySection.item2'),
+                t('landing.safetySection.item3'),
+                t('landing.safetySection.item4'),
+              ].map((item, idx) => (
+                <li key={idx} className="flex gap-2 text-sm font-semibold">
                   <ShieldCheck className="mt-0.5 size-5 shrink-0" aria-hidden />
                   {item}
                 </li>
@@ -485,12 +498,12 @@ function Index() {
 
         {/* FAQ */}
         <Section id="faq" className="max-w-3xl">
-          <h2 className="text-4xl font-extrabold">Questions parents ask</h2>
+          <h2 className="text-4xl font-extrabold">{t('landing.faqSection.title')}</h2>
           <Accordion type="single" collapsible className="mt-8">
-            {FAQS.map((f) => (
-              <AccordionItem key={f.q} value={f.q}>
-                <AccordionTrigger className="text-left text-base font-bold">{f.q}</AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+            {(['1','2','3','4','5'] as const).map((n) => (
+              <AccordionItem key={n} value={n}>
+                <AccordionTrigger className="text-left text-base font-bold">{t(`faqs.q${n}`)}</AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground">{t(`faqs.a${n}`)}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
@@ -504,7 +517,7 @@ function Index() {
             TeretVerse
           </div>
           <p className="text-sm text-muted-foreground">
-            Made with care for curious kids · COPPA & GDPR-K aligned · No ads, ever
+            {t('landing.footer.tagline')}
           </p>
         </div>
       </footer>

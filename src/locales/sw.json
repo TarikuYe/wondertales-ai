@@ -1,0 +1,240 @@
+{
+  "nav": {
+    "bookshelf": "Kabati la Vitabu",
+    "createStory": "Unda Hadithi",
+    "vocabVault": "Hazina ya Maneno",
+    "switchProfile": "Badili Wasifu",
+    "logout": "Toka"
+  },
+  "dashboard": {
+    "welcomeBack": "Karibu tena, {{name}}!",
+    "readyForAdventure": "Uko tayari kwa tukio lingine kabla ya kulala?",
+    "bedtimeRoutine": "Utaratibu wa Kusoma kabla ya Kulala",
+    "streakMsg": "Soma hadithi leo usiku ili kuendeleza mfululizo wako!",
+    "days": "Siku {{count}}",
+    "createNewStory": "Unda Hadithi Mpya",
+    "yourBookshelf": "Kabati lako la Vitabu",
+    "tapToRead": "Gusa ili usome"
+  },
+  "landing": {
+    "signIn": "Ingia",
+    "startFree": "Anza bila malipo",
+    "heroTitle": "Pale Kila Mtoto Anapokuwa Shujaa",
+    "heroDesc": "Hadithi zilizobinafsishwa na kuonyeshwa kwa ustadi zinazoundwa papo hapo. Boresha ujuzi wa kusoma na kujiamini kwa matukio ya kichawi yanayomshirikisha mtoto wako.",
+    "createFirst": "Unda hadithi yako ya kwanza",
+    "watchDemo": "Tazama Onyesho",
+    "howItWorks": "Inavyofanya kazi",
+    "library": "Maktaba",
+    "pricing": "Bei",
+    "faq": "Maswali Yanayoulizwa Mara kwa Mara",
+    "coppaBadge": "Imetengenezwa kwa usalama kulingana na COPPA & GDPR-K",
+    "demoBtn": "Jaribu onyesho la bure",
+    "noCardNote": "Hakuna kadi inayohitajika · Hakuna matangazo · Inadhibitiwa na wazazi",
+    "benefits": {
+      "b1": "maneno zaidi yanayojifunzwa watoto wanapokuwa wahusika wakuu",
+      "b2": "kurasa kulingana na umri zenye maswali na msamiati",
+      "b3": "matangazo, vifuatiliaji au gumzo kati ya watoto. Abadani."
+    },
+    "howSection": {
+      "title": "Hatua tatu kuelekea hadithi ya kulala",
+      "step": "Hatua",
+      "s1Title": "Twambie kuhusu mtoto wako",
+      "s1Body": "Jina, umri, mnyama anayempenda, kiwango cha kusoma na somo unalotaka.",
+      "s2Title": "Tunachora kila ukurasa",
+      "s2Body": "Muundo wa mhusika uliothibitishwa unamfanya ashikilie mwonekano kutoka ukurasa wa 1 hadi 40.",
+      "s3Title": "Bonyeza cheza kisha usome naye",
+      "s3Body": "Usimulizi wenye hisia unaangazia kila neno — au tumia sauti yako mwenyewe."
+    },
+    "librarySection": {
+      "title": "Maktaba inayokua pamoja nao",
+      "desc": "Zaidi ya ulimwengu ishirini, kutoka kwa dinosaria hadi elimu ya hisia."
+    },
+    "stylesSection": {
+      "title": "Mitindo walionayo wa uchoraji, shujaa mmoja thabiti",
+      "desc": "Muundo thabiti unaweka wahusika na mazingira sawa katika kila ukurasa."
+    },
+    "voicesSection": {
+      "title": "Usimulizi unaofaa kulalia",
+      "desc": "Sauti mbalimbali za wahusika, sauti za mazingira na ufuatiliaji wa neno kwa neno."
+    },
+    "testimonialsSection": {
+      "title": "Inapendwa na wazazi, inaoaminika na walimu"
+    },
+    "pricingSection": {
+      "title": "Bei rahisi za kifamilia",
+      "mostLoved": "Inayopendwa zaidi",
+      "forever": "milele",
+      "perMonth": "/mwezi",
+      "perClassroom": "kwa darasa"
+    },
+    "safetySection": {
+      "title": "Usalama sio kipengele tu. Ni msingi.",
+      "item1": "Hakuna gumzo au ujumbe kati ya watoto",
+      "item2": "Bure matangazo na hakuna ufuatiliaji",
+      "item3": "Ruhusa ya mzazi inahitajika kwa manunuzi na kushiriki",
+      "item4": "Kila hadithi inakaguliwa kwa usalama"
+    },
+    "faqSection": {
+      "title": "Maswali ambayo wazazi huuliza"
+    },
+    "footer": {
+      "tagline": "Imetengenezwa kwa upendo kwa watoto wenye hamu · Hakuna matangazo kabisa"
+    }
+  },
+  "createStory": {
+    "title": "Unda hadithi ya kichawi",
+    "settings": "Mipangilio ya Hadithi",
+    "desc": "Binafsisha tukio kwa ajili ya mtoto wako.",
+    "whichChild": "Hadithi hii ni ya mtoto yupi?",
+    "selectChild": "Chagua wasifu wa mtoto",
+    "noChild": "Hakuna wasifu wa mtoto uliopatikana.",
+    "createOne": "Unda mmoja kwanza",
+    "genre": "Aina ya Hadithi",
+    "selectGenre": "Chagua aina",
+    "theme": "Mada Maalum",
+    "optional": "(Si lazima)",
+    "themePlaceholder": "mf. Msitu wa kichawi ambapo miti hunong'ona siri...",
+    "lesson": "Somo",
+    "lessonPlaceholder": "mf. Kushiriki ni kujali",
+    "style": "Mtindo wa Uchoraji",
+    "selectStyle": "Chagua mtindo",
+    "voice": "Sauti ya Kusimulia",
+    "selectVoice": "Chagua sauti",
+    "cancel": "Ghairi",
+    "generating": "Tengeneza uchawi...",
+    "create": "Unda Hadithi"
+  },
+  "vocab": {
+    "backToBookshelf": "Rudi kwenye Kabati la Vitabu",
+    "vaultTitle": "Hazina ya Maneno ya {{name}}",
+    "wordsCount": "Maneno {{count}}",
+    "opening": "Inafungua Hazina ya Maneno...",
+    "gathering": "Inakusanya maneno yako yote ya kichawi na beji!",
+    "wordBank": "Benki ya Maneno",
+    "flashcards": "Mazoezi ya Kadi",
+    "badges": "Beji",
+    "from": "Kutoka:",
+    "noWordsTitle": "Bado Hakuna Maneno Yaliyofunguliwa!",
+    "noWordsDesc": "Soma hadithi kwenye maktaba yako ili kugundua maneno ya kichawi!",
+    "exploreStories": "Chunguza Hadithi 📚",
+    "listenWord": "Sikiliza neno",
+    "cardProgress": "Kadi {{current}} kati ya {{total}} · Gusa ili kugeuza",
+    "cardCategory": "Kadi ya Msamiati",
+    "tapToReveal": "Gusa mahali popote ili kuona maelezo 🔄",
+    "definition": "Maana",
+    "fromStory": "Kutoka hadithi:",
+    "needPractice": "Ninahitaji Mazoezi 💡",
+    "gotIt": "Nimeelewa! 👍",
+    "noFlashcards": "Bado hakuna maneno ya kufanyia mazoezi.",
+    "unlocked": "Imefunguliwa 🎉",
+    "locked": "Imefungwa 🔒",
+    "badge1Title": "Mtafuta Neno",
+    "badge1Desc": "Aligundua neno 1 la msamiati",
+    "badge2Title": "Mchunguzi wa Hadithi",
+    "badge2Desc": "Aligundua maneno 5 ya msamiati",
+    "badge3Title": "Bingwa wa Msamiati",
+    "badge3Desc": "Aligundua maneno 10 ya msamiati",
+    "badge4Title": "Msomi Mkuu",
+    "badge4Desc": "Aligundua maneno 20 ya msamiati"
+  },
+  "reader": {
+    "back": "Rudi",
+    "play": "Cheza",
+    "pause": "Simamisha",
+    "speed": "Kasi",
+    "highlighting": "Kuangazia",
+    "page": "Ukurasa {{current}} kati ya {{total}}",
+    "prevPage": "Ukurasa Uliopita",
+    "nextPage": "Ukurasa Unaofuata",
+    "vocabWords": "Maneno ya Msamiati kwenye Ukurasa Huu",
+    "listen": "Sikiliza"
+  },
+  "categories": {
+    "Bedtime": "Wakati wa Kulala",
+    "Adventure": "Tukio",
+    "Animals": "Wanyama",
+    "Space": "Nafasi",
+    "Ocean": "Bahari",
+    "Dinosaurs": "Dinosauria",
+    "WorldFolktales": "Hadithi za Ulimwengu",
+    "STEM": "Sayansi",
+    "Kindness": "Upole",
+    "BigFeelings": "Hisia Kubwa",
+    "Friendship": "Urafiki",
+    "HealthyHabits": "Mazoea Bora ya Afya"
+  },
+  "miniDemo": {
+    "title": "Jaribu hadithi fupi — bila usajili",
+    "desc": "Chaguo tatu ndogo, hadithi moja ya haraka. Jukwaa zima linaandika kurasa 12–40 zilizochorwa na kusimuliwa.",
+    "childName": "Jina la kwanza la mtoto",
+    "favoriteAnimal": "Mnyama anayependwa",
+    "lesson": "Somo",
+    "weave": "Fuma hadithi yangu",
+    "startOver": "Anza upya",
+    "placeholder": "Hadithi yako inaonekana hapa — salama, imeandaliwa kwa umri, na iko tayari kusomwa kwa sauti.",
+    "animals": {
+      "Elephant": "Tembo",
+      "Fox": "Mbweha",
+      "Dolphin": "Pomboo",
+      "Owl": "Bundi"
+    },
+    "themes": {
+      "Kindness": "Upole",
+      "Curiosity": "Udadisi",
+      "Bravery": "Ujasiri"
+    }
+  },
+  "plans": {
+    "free": {
+      "name": "Bure",
+      "note": "milele",
+      "cta": "Anza bure",
+      "f1": "Hadithi 5 kwa mwezi",
+      "f2": "Usimulizi wa kawaida",
+      "f3": "Mitindo 2 ya uchoraji",
+      "f4": "Wasifu 1 wa mtoto"
+    },
+    "premium": {
+      "name": "Familia Premium",
+      "note": "/mwezi",
+      "cta": "Jaribu siku 14 bure",
+      "badge": "Inayopendwa zaidi",
+      "f1": "Hadithi na vitabu vya sauti visivyo na mipaka",
+      "f2": "Sauti zote za hali ya juu + kunakili sauti",
+      "f3": "Hali ya nje ya mtandao na shughuli zinazoweza kuchapishwa",
+      "f4": "Hadi wasifu 6 za watoto"
+    },
+    "teacher": {
+      "name": "Mwalimu na Shule",
+      "note": "kwa darasa",
+      "cta": "Zungumza nasi",
+      "f1": "Madarasa na mgawanyo wa wingi",
+      "f2": "Ramani ya kiwango cha mtaala",
+      "f3": "Ripoti za maendeleo na msamiati",
+      "f4": "Hali salama ya darasa"
+    }
+  },
+  "faqs": {
+    "q1": "Je, ni salama kwa mtoto wangu?",
+    "a1": "Kila hadithi inapitia bomba la usalama la hatua tatu: kuchuja kabla ya kuunda, udhibiti wakati wa kuunda, na foleni ya ukaguzi kabla ya kufikia kifaa cha mtoto.",
+    "q2": "Je, watoto wanapata kuingia kwao wenyewe?",
+    "a2": "Hapana. Wazazi na walimu wanashikilia akaunti; watoto huingia kwa PIN au kwa kugusa avatar yao kwenye kifaa kilichoshirikiwa.",
+    "q3": "Je, mtoto wangu anaweza kuonekana kama mhusika?",
+    "a3": "Ndiyo — kama mhusika wa kuchora ulioundwa kutoka kwa maelezo unayotoa. Hatuzalishi picha za picha halisi za mtoto.",
+    "q4": "Lugha zipi zinaungwa mkono?",
+    "a4": "Kiingereza, Kiamhari, Kifaransa, Kiarabu (na msaada kamili wa RTL), Kihispania na Kiswahili — inabadilishwa ndani ya programu wakati wowote.",
+    "q5": "Kuhusu ufikiaji?",
+    "a5": "Ubadilishaji wa fonti ya dyslexia-rafiki, ukubwa wa maandishi unaoweza kurekebishwa, rangi salama kwa upofu wa rangi, manukuu kwenye usimulizi, urambazaji kamili wa kibodi, na msaada wa harakati zilizopunguzwa."
+  },
+  "testimonials": {
+    "t1q": "Mwanangu anauliza 'yule aliyepanda nyangumi wa wingu' kila usiku. Anasoma maneno ambayo hakuweza kuyagusa miezi miwili iliyopita.",
+    "t1name": "Marta B.",
+    "t1role": "Mzazi wa mtoto wa miaka 6",
+    "t2q": "Ninakasimu hadithi kwa kila kiwango cha kusoma na kupata ripoti za msamiati Jumatatu asubuhi. Ilichukua nafasi ya karatasi tatu za kazi.",
+    "t2name": "Bw. Okonkwo",
+    "t2role": "Mwalimu wa darasa la 2",
+    "t3q": "Usimulizi kwa sauti yangu mwenyewe ulimaanisha wakati wa kulala uliendelea hata nilipokuwa mbali kwenye ziara. Hii inastahili usajili peke yake.",
+    "t3name": "Daniel R.",
+    "t3role": "Mzazi wa mapacha, umri wa miaka 4"
+  }
+}

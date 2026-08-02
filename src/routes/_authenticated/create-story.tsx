@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, Sparkles, Wand2 } from "lucide-react";
 import type { StoryGenre, IllustrationStyle, VoiceType } from "@/types/story";
 import { generateStory } from "@/lib/stories";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_authenticated/create-story")({
   head: () => ({
@@ -31,6 +32,7 @@ import { getChildren } from "@/lib/children";
 function CreateStory() {
   const navigate = useNavigate();
   const { user } = useSession();
+  const { t } = useTranslation();
   const [isGenerating, setIsGenerating] = useState(false);
 
   // Fetch children for selection
@@ -101,7 +103,7 @@ function CreateStory() {
               <span className="sr-only">Back</span>
             </Link>
           </Button>
-          <h1 className="font-display text-lg font-bold">Create a magical story</h1>
+          <h1 className="font-display text-lg font-bold">{t('createStory.title')}</h1>
         </div>
       </header>
 
@@ -111,17 +113,17 @@ function CreateStory() {
             <div className="h-2 w-full bg-gradient-magic" />
             <CardHeader>
               <CardTitle className="text-2xl font-display flex items-center gap-2">
-                <Wand2 className="size-6 text-accent" /> Story Settings
+                <Wand2 className="size-6 text-accent" /> {t('createStory.settings')}
               </CardTitle>
-              <CardDescription>Customize the adventure for your child.</CardDescription>
+              <CardDescription>{t('createStory.desc')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               
               <div className="space-y-3">
-                <Label htmlFor="childSelect">Which child is this story for?</Label>
+                <Label htmlFor="childSelect">{t('createStory.whichChild')}</Label>
                 <Select value={selectedChildId} onValueChange={setSelectedChildId}>
                   <SelectTrigger id="childSelect" className="h-11">
-                    <SelectValue placeholder="Select a child profile" />
+                    <SelectValue placeholder={t('createStory.selectChild')} />
                   </SelectTrigger>
                   <SelectContent>
                     {children.map((c: any) => (
@@ -134,16 +136,16 @@ function CreateStory() {
                 </Select>
                 {children.length === 0 && !isLoadingChildren && (
                   <p className="text-xs text-rose-400">
-                    No child profiles found. <Link to="/children" className="underline font-semibold">Create one first</Link>
+                    {t('createStory.noChild')} <Link to="/children" className="underline font-semibold">{t('createStory.createOne')}</Link>
                   </p>
                 )}
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="genre">Story Genre</Label>
+                <Label htmlFor="genre">{t('createStory.genre')}</Label>
                 <Select value={genre} onValueChange={(v) => setGenre(v as StoryGenre)}>
                   <SelectTrigger id="genre" className="h-11">
-                    <SelectValue placeholder="Select a genre" />
+                    <SelectValue placeholder={t('createStory.selectGenre')} />
                   </SelectTrigger>
                   <SelectContent>
                     {GENRES.map(g => (
@@ -154,10 +156,10 @@ function CreateStory() {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="theme">Custom Theme / Prompt <span className="text-muted-foreground font-normal">(Optional)</span></Label>
+                <Label htmlFor="theme">{t('createStory.theme')} <span className="text-muted-foreground font-normal">{t('createStory.optional')}</span></Label>
                 <Textarea 
                   id="theme" 
-                  placeholder="e.g. A magical forest where the trees whisper secrets..."
+                  placeholder={t('createStory.themePlaceholder')}
                   value={theme}
                   onChange={e => setTheme(e.target.value)}
                   className="resize-none h-20"
@@ -165,10 +167,10 @@ function CreateStory() {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="lesson">Moral or Lesson <span className="text-muted-foreground font-normal">(Optional)</span></Label>
+                <Label htmlFor="lesson">{t('createStory.lesson')} <span className="text-muted-foreground font-normal">{t('createStory.optional')}</span></Label>
                 <Input 
                   id="lesson" 
-                  placeholder="e.g. Sharing is caring"
+                  placeholder={t('createStory.lessonPlaceholder')}
                   value={lesson}
                   onChange={e => setLesson(e.target.value)}
                   className="h-11"
@@ -177,10 +179,10 @@ function CreateStory() {
 
               <div className="grid sm:grid-cols-2 gap-6 pt-4 border-t border-border">
                 <div className="space-y-3">
-                  <Label htmlFor="style">Illustration Style</Label>
+                  <Label htmlFor="style">{t('createStory.style')}</Label>
                   <Select value={style} onValueChange={(v) => setStyle(v as IllustrationStyle)}>
                     <SelectTrigger id="style" className="h-11">
-                      <SelectValue placeholder="Select style" />
+                      <SelectValue placeholder={t('createStory.selectStyle')} />
                     </SelectTrigger>
                     <SelectContent>
                       {STYLES.map(s => (
@@ -191,14 +193,14 @@ function CreateStory() {
                 </div>
 
                 <div className="space-y-3">
-                  <Label htmlFor="voice">Narration Voice</Label>
+                  <Label htmlFor="voice">{t('createStory.voice')}</Label>
                   <Select value={voice} onValueChange={(v) => setVoice(v as VoiceType)}>
                     <SelectTrigger id="voice" className="h-11">
-                      <SelectValue placeholder="Select voice" />
+                      <SelectValue placeholder={t('createStory.selectVoice')} />
                     </SelectTrigger>
                     <SelectContent>
                       {VOICES.map(v => (
-                        <SelectItem key={v} value={v}>{v}</SelectItem>
+                        <SelectItem key={v} value={v}>{t(`voices.${v.toLowerCase().replace(" ", "")}`, { defaultValue: v })}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -206,22 +208,26 @@ function CreateStory() {
               </div>
 
             </CardContent>
-            <CardFooter className="bg-muted/30 pt-6">
+            <CardFooter className="bg-muted/30 border-t border-border flex justify-end gap-3 py-4">
+              <Button type="button" variant="ghost" asChild>
+                <Link to="/">{t('createStory.cancel')}</Link>
+              </Button>
               <Button 
                 type="submit" 
-                variant="hero" 
-                size="xl" 
-                className="w-full text-lg" 
-                disabled={isGenerating}
+                variant="hero"
+                disabled={isGenerating || children.length === 0}
+                className="gap-2 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-indigo-950 font-bold w-48"
               >
                 {isGenerating ? (
-                  <span className="flex items-center gap-2">
-                    <Sparkles className="size-5 animate-pulse" /> Generating magic...
-                  </span>
+                  <>
+                    <Sparkles className="size-4 fill-indigo-950 animate-pulse" />
+                    {t('createStory.generating')}
+                  </>
                 ) : (
-                  <span className="flex items-center gap-2">
-                    <Sparkles className="size-5" /> Generate Story
-                  </span>
+                  <>
+                    <Wand2 className="size-4" />
+                    {t('createStory.create')}
+                  </>
                 )}
               </Button>
             </CardFooter>
