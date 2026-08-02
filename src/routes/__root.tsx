@@ -128,11 +128,18 @@ function RootComponent() {
   const router = useRouter();
 
   useEffect(() => {
+    let isMounted = true;
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      router.invalidate();
-      if (user) queryClient.invalidateQueries();
+      if (!isMounted) return;
+      setTimeout(() => {
+        router.invalidate();
+        if (user) queryClient.invalidateQueries();
+      }, 0);
     });
-    return () => unsubscribe();
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, [router, queryClient]);
 
   return (

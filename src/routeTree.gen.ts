@@ -14,8 +14,11 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedChildrenRouteImport } from './routes/_authenticated/children'
 import { Route as AuthenticatedClassroomRouteImport } from './routes/_authenticated/classroom'
+import { Route as AuthenticatedCreateStoryRouteImport } from './routes/_authenticated/create-story'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedSelectProfileRouteImport } from './routes/_authenticated/select-profile'
+import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
+import { Route as AuthenticatedStoryStoryIdRouteImport } from './routes/_authenticated/story.$storyId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,6 +44,12 @@ const AuthenticatedClassroomRoute = AuthenticatedClassroomRouteImport.update({
   path: '/classroom',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCreateStoryRoute =
+  AuthenticatedCreateStoryRouteImport.update({
+    id: '/create-story',
+    path: '/create-story',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -52,22 +61,39 @@ const AuthenticatedSelectProfileRoute =
     path: '/select-profile',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedVocabularyRoute = AuthenticatedVocabularyRouteImport.update({
+  id: '/vocabulary',
+  path: '/vocabulary',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedStoryStoryIdRoute =
+  AuthenticatedStoryStoryIdRouteImport.update({
+    id: '/story/$storyId',
+    path: '/story/$storyId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/children': typeof AuthenticatedChildrenRoute
   '/classroom': typeof AuthenticatedClassroomRoute
+  '/create-story': typeof AuthenticatedCreateStoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/select-profile': typeof AuthenticatedSelectProfileRoute
+  '/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/story/$storyId': typeof AuthenticatedStoryStoryIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/children': typeof AuthenticatedChildrenRoute
   '/classroom': typeof AuthenticatedClassroomRoute
+  '/create-story': typeof AuthenticatedCreateStoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/select-profile': typeof AuthenticatedSelectProfileRoute
+  '/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/story/$storyId': typeof AuthenticatedStoryStoryIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -76,8 +102,11 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/children': typeof AuthenticatedChildrenRoute
   '/_authenticated/classroom': typeof AuthenticatedClassroomRoute
+  '/_authenticated/create-story': typeof AuthenticatedCreateStoryRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/select-profile': typeof AuthenticatedSelectProfileRoute
+  '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/_authenticated/story/$storyId': typeof AuthenticatedStoryStoryIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -86,16 +115,22 @@ export interface FileRouteTypes {
     | '/auth'
     | '/children'
     | '/classroom'
+    | '/create-story'
     | '/dashboard'
     | '/select-profile'
+    | '/vocabulary'
+    | '/story/$storyId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/children'
     | '/classroom'
+    | '/create-story'
     | '/dashboard'
     | '/select-profile'
+    | '/vocabulary'
+    | '/story/$storyId'
   id:
     | '__root__'
     | '/'
@@ -103,8 +138,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/children'
     | '/_authenticated/classroom'
+    | '/_authenticated/create-story'
     | '/_authenticated/dashboard'
     | '/_authenticated/select-profile'
+    | '/_authenticated/vocabulary'
+    | '/_authenticated/story/$storyId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -150,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClassroomRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/create-story': {
+      id: '/_authenticated/create-story'
+      path: '/create-story'
+      fullPath: '/create-story'
+      preLoaderRoute: typeof AuthenticatedCreateStoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -164,21 +209,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSelectProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/vocabulary': {
+      id: '/_authenticated/vocabulary'
+      path: '/vocabulary'
+      fullPath: '/vocabulary'
+      preLoaderRoute: typeof AuthenticatedVocabularyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/story/$storyId': {
+      id: '/_authenticated/story/$storyId'
+      path: '/story/$storyId'
+      fullPath: '/story/$storyId'
+      preLoaderRoute: typeof AuthenticatedStoryStoryIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedChildrenRoute: typeof AuthenticatedChildrenRoute
   AuthenticatedClassroomRoute: typeof AuthenticatedClassroomRoute
+  AuthenticatedCreateStoryRoute: typeof AuthenticatedCreateStoryRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedSelectProfileRoute: typeof AuthenticatedSelectProfileRoute
+  AuthenticatedVocabularyRoute: typeof AuthenticatedVocabularyRoute
+  AuthenticatedStoryStoryIdRoute: typeof AuthenticatedStoryStoryIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChildrenRoute: AuthenticatedChildrenRoute,
   AuthenticatedClassroomRoute: AuthenticatedClassroomRoute,
+  AuthenticatedCreateStoryRoute: AuthenticatedCreateStoryRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedSelectProfileRoute: AuthenticatedSelectProfileRoute,
+  AuthenticatedVocabularyRoute: AuthenticatedVocabularyRoute,
+  AuthenticatedStoryStoryIdRoute: AuthenticatedStoryStoryIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

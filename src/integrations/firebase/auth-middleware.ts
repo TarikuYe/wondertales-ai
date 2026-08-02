@@ -40,9 +40,10 @@ export const requireFirebaseAuth = createMiddleware({ type: 'function' }).server
           claims: decodedToken,
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("requireFirebaseAuth: Invalid token:", error);
-      throw new Error('Unauthorized: Invalid token');
+      import('fs').then(fs => fs.appendFileSync('error.log', `[Auth Error] ${error.message || error}\\n${error.stack || ''}\\n`));
+      throw new Error(`Unauthorized: Invalid token (${error.message || 'unknown error'})`);
     }
   },
 );

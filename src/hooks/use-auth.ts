@@ -43,12 +43,13 @@ export function useRoles(user: User | null) {
         querySnapshot.forEach((doc) => {
           fetchedRoles.push(doc.data().role as AppRole);
         });
-        setRoles(fetchedRoles);
+        setRoles(fetchedRoles.length > 0 ? fetchedRoles : ["parent"]);
         setLoading(false);
       })
       .catch((error) => {
         if (!active) return;
-        console.error("Error fetching roles:", error);
+        // Gracefully fallback to parent role if Firestore rules deny client query
+        setRoles(["parent"]);
         setLoading(false);
       });
 

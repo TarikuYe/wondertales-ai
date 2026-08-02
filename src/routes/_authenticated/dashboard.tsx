@@ -1,10 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { auth, db } from "@/integrations/firebase/client";
 import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useRoles, useSession } from "@/hooks/use-auth";
+import { getStories } from "@/lib/stories";
+import type { Story } from "@/types/story";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, GraduationCap, Home, Loader2, Users } from "lucide-react";
@@ -36,6 +38,12 @@ function Dashboard() {
   const { user } = useSession();
   const { roles, loading, hasRole } = useRoles(user);
   const [fullName, setFullName] = useState<string | null>(null);
+
+  const { data: stories, isLoading: isLoadingStories } = useQuery({
+    queryKey: ["stories", user?.uid],
+    queryFn: () => getStories(),
+    enabled: !!user,
+  });
 
   useEffect(() => {
     if (!user) return;
@@ -89,7 +97,30 @@ function Dashboard() {
           )}
         </p>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2">
+        {/* Parent Analytics Summary */}
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <Card className="border-border shadow-soft bg-indigo-50/50">
+            <CardHeader className="pb-2">
+              <CardDescription className="text-xs uppercase font-bold tracking-wider text-indigo-800">Total Books Created</CardDescription>
+              <CardTitle className="text-3xl font-extrabold flex items-center gap-2 text-indigo-950">
+                <BookOpen className="size-7 text-indigo-600" />
+                {stories?.length || 0}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+          
+          <Card className="border-border shadow-soft bg-emerald-50/50">
+            <CardHeader className="pb-2">
+              <CardDescription className="text-xs uppercase font-bold tracking-wider text-emerald-800">Vocab Words Unlocked</CardDescription>
+              <CardTitle className="text-3xl font-extrabold flex items-center gap-2 text-emerald-950">
+                <GraduationCap className="size-7 text-emerald-600" />
+                {stories?.reduce((acc, story) => acc + (story.vocabularyWords?.length || 0), 0) || 0}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        </div>
+
+        <div className="mt-8 grid gap-5 sm:grid-cols-3">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display">
@@ -107,11 +138,54 @@ function Dashboard() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display">
-                <BookOpen className="size-5 text-accent" aria-hidden /> Story library
+                <BookOpen className="size-5 text-accent" aria-hidden /> Vocabulary Vault
               </CardTitle>
-              <CardDescription>Every story you create, saved and re-readable.</CardDescription>
+              <CardDescription>View all magic words unlocked across generated stories.</CardDescription>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">Coming next.</CardContent>
+            <CardContent>
+              <Button variant="soft" size="sm" asChild>
+                <Link to="/vocabulary">Open Vocab Vault</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <div className="space-y-1">
+                <CardTitle className="flex items-center gap-2 font-display">
+                  <BookOpen className="size-5 text-accent" aria-hidden /> Story library
+                </CardTitle>
+                <CardDescription>Every story you create, saved and re-readable.</CardDescription>
+              </div>
+              <Button variant="hero" size="sm" asChild>
+                <Link to="/create-story">
+                  <BookOpen className="mr-2 size-4" aria-hidden /> Create
+                </Link>
+              </Button>
+            </CardHeader>
+            <CardContent>
+              {isLoadingStories ? (
+                <div className="flex justify-center py-4 text-muted-foreground"><Loader2 className="animate-spin size-6" /></div>
+              ) : stories && stories.length > 0 ? (
+                <ul className="space-y-3 mt-2">
+                  {stories.map((story: Story) => (
+                    <li key={story.id} className="flex justify-between items-center rounded-lg border bg-card p-3 shadow-sm">
+                      <div>
+                        <h4 className="font-bold">{story.title}</h4>
+                        <p className="text-xs text-muted-foreground">For child ID: {story.childId} • {new Date(story.createdAt).toLocaleDateString()}</p>
+                      </div>
+                      <span className="text-xs font-semibold px-2 py-1 rounded-full bg-secondary text-secondary-foreground uppercase">
+                        {story.status}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-sm text-muted-foreground text-center py-8 bg-secondary/20 rounded-xl mt-2">
+                  No stories yet. Create your first magic adventure!
+                </div>
+              )}
+            </CardContent>
           </Card>
 
           {isTeacher && (

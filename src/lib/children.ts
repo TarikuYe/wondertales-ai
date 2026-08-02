@@ -6,8 +6,7 @@ import { attachFirebaseAuth } from '../integrations/firebase/auth-attacher';
 import * as bcrypt from 'bcryptjs';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 
-const db = firebaseAdmin.firestore();
-
+// Db is fetched inside handlers
 // Types
 export const ChildProfileSchema = z.object({
   id: z.string().optional(),
@@ -25,6 +24,7 @@ export const createChild = createServerFn({ method: 'POST' })
   .middleware([attachFirebaseAuth, requireFirebaseAuth])
   .validator((data: z.infer<typeof ChildProfileSchema>) => ChildProfileSchema.parse(data))
   .handler(async ({ data, context }) => {
+    const db = firebaseAdmin.firestore();
     if (!context || !context.userId) throw new Error("Unauthorized");
     const userId = context.userId;
     const newChildRef = db.collection('child_profiles').doc();
@@ -54,21 +54,32 @@ export const createChild = createServerFn({ method: 'POST' })
 export const getChildren = createServerFn({ method: 'GET' })
   .middleware([attachFirebaseAuth, requireFirebaseAuth])
   .handler(async ({ context }) => {
-    if (!context || !context.userId) throw new Error("Unauthorized");
-    const userId = context.userId;
-    
-    const snapshot = await db.collection('child_profiles')
-      .where('owner_id', '==', userId)
-      .get();
+    try {
+      const db = firebaseAdmin.firestore();
+      if (!context || !context.userId) throw new Error("Unauthorized");
+      const userId = context.userId;
       
-    const children = snapshot.docs.map((doc: any) => {
-      const data = doc.data();
-      // Don't leak the pinHash to the client
-      const { pinHash, ...safeData } = data;
-      return { id: doc.id, ...safeData };
-    });
-    
-    return children;
+      const snapshot = await db.collection('child_profiles')
+        .where('owner_id', '==', userId)
+        .get();
+        
+      const children = snapshot.docs.map((doc: any) => {
+        const data = doc.data();
+        const { pinHash, created_at, updated_at, lockedUntil, ...safeData } = data;
+        return {
+          id: doc.id,
+          ...safeData,
+          created_at: created_at?.toDate ? created_at.toDate().toISOString() : (created_at || null),
+          updated_at: updated_at?.toDate ? updated_at.toDate().toISOString() : (updated_at || null),
+          lockedUntil: lockedUntil?.toDate ? lockedUntil.toDate().toISOString() : (lockedUntil || null),
+        };
+      });
+      
+      return children;
+    } catch (error: any) {
+      import('fs').then(fs => fs.appendFileSync('error.log', `[getChildren Error] ${error.message}\\n${error.stack}\\n`));
+      throw error;
+    }
   });
 
 // Set PIN
@@ -82,6 +93,7 @@ export const setChildPin = createServerFn({ method: 'POST' })
   .validator((data: z.infer<typeof SetPinSchema>) => SetPinSchema.parse(data))
   .handler(async ({ data, context }) => {
     try {
+      const db = firebaseAdmin.firestore();
       console.log("setChildPin handler started for childId:", data.childId);
       if (!context || !context.userId) throw new Error("Unauthorized");
       const userId = context.userId;
@@ -109,8 +121,9 @@ export const setChildPin = createServerFn({ method: 'POST' })
       console.log("Update successful");
 
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error inside setChildPin handler:", error);
+      import('fs').then(fs => fs.appendFileSync('error.log', error.stack + '\\n'));
       throw error;
     }
   });
@@ -125,6 +138,7 @@ export const verifyChildPin = createServerFn({ method: 'POST' })
   .middleware([attachFirebaseAuth, requireFirebaseAuth])
   .validator((data: z.infer<typeof VerifyPinSchema>) => VerifyPinSchema.parse(data))
   .handler(async ({ data, context }) => {
+    const db = firebaseAdmin.firestore();
     if (!context || !context.userId) throw new Error("Unauthorized");
     const userId = context.userId;
     const childRef = db.collection('child_profiles').doc(data.childId);

@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { useSession } from "@/hooks/use-auth";
+import { KidsLibrary } from "@/components/profile/KidsLibrary";
 import {
   Accordion,
   AccordionContent,
@@ -200,6 +202,16 @@ function Section({
 function Index() {
   const { session, loading } = useSession();
   const signedIn = !loading && !!session;
+  const [activeChildId, setActiveChildId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setActiveChildId(localStorage.getItem('activeChildId'));
+  }, []);
+
+  if (activeChildId) {
+    return <KidsLibrary activeChildId={activeChildId} />;
+  }
+
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
