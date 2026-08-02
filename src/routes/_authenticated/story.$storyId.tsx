@@ -138,6 +138,70 @@ function StoryReader() {
     utterance.rate = speechRate;
     utterance.lang = "en-US"; // Fallback, could check child preferences later
 
+    // Custom voice handling based on user selection during generation
+    const selectedVoice = story?.generationOptions?.voice;
+    if (selectedVoice) {
+      const voices = window.speechSynthesis.getVoices();
+      
+      let isMale = false;
+      let pitch = 1.0;
+      
+      // Map the voice selection to pitch, rate, and gender heuristics
+      switch (selectedVoice) {
+        case "Grandmother":
+          isMale = false;
+          pitch = 0.8;
+          utterance.rate = speechRate * 0.9;
+          break;
+        case "Friendly Dad":
+          isMale = true;
+          pitch = 0.9;
+          break;
+        case "Young Girl":
+          isMale = false;
+          pitch = 1.4;
+          break;
+        case "Wizard":
+          isMale = true;
+          pitch = 0.6;
+          utterance.rate = speechRate * 0.85;
+          break;
+        case "Pirate":
+          isMale = true;
+          pitch = 0.7;
+          break;
+        case "Robot":
+          pitch = 0.1; // Extremely flat pitch for a robotic effect
+          break;
+        default:
+          pitch = 1.0;
+      }
+      
+      utterance.pitch = pitch;
+      
+      // Try to find a matching voice by gender keywords (browser dependent)
+      if (voices.length > 0) {
+        let bestVoice = voices.find(v => v.lang.startsWith("en-")); // Default to first English voice
+        
+        const maleKeywords = ["male", "david", "alex", "daniel", "mark", "arthur"];
+        const femaleKeywords = ["female", "zira", "samantha", "victoria", "karen", "susan"];
+        const targetKeywords = isMale ? maleKeywords : femaleKeywords;
+        
+        const matchingVoice = voices.find(v => {
+          if (!v.lang.startsWith("en-")) return false;
+          const nameLower = v.name.toLowerCase();
+          return targetKeywords.some(kw => nameLower.includes(kw));
+        });
+        
+        if (matchingVoice) {
+          bestVoice = matchingVoice;
+        }
+        if (bestVoice) {
+          utterance.voice = bestVoice;
+        }
+      }
+    }
+
     // Split text to handle word index mapping on boundaries
     utterance.onboundary = (event) => {
       if (event.name === "word") {
