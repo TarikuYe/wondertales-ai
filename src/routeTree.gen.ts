@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedChildrenRouteImport } from './routes/_authenticated/children'
 import { Route as AuthenticatedClassroomRouteImport } from './routes/_authenticated/classroom'
@@ -18,6 +20,28 @@ import { Route as AuthenticatedCreateStoryRouteImport } from './routes/_authenti
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedSelectProfileRouteImport } from './routes/_authenticated/select-profile'
 import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminAiUsageRouteImport } from './routes/admin/ai-usage'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
+import { Route as AdminAudioRouteImport } from './routes/admin/audio'
+import { Route as AdminAuditLogsRouteImport } from './routes/admin/audit-logs'
+import { Route as AdminChildrenRouteImport } from './routes/admin/children'
+import { Route as AdminDatabaseRouteImport } from './routes/admin/database'
+import { Route as AdminDeveloperRouteImport } from './routes/admin/developer'
+import { Route as AdminIllustrationsRouteImport } from './routes/admin/illustrations'
+import { Route as AdminModerationRouteImport } from './routes/admin/moderation'
+import { Route as AdminNotificationsRouteImport } from './routes/admin/notifications'
+import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
+import { Route as AdminQuizzesRouteImport } from './routes/admin/quizzes'
+import { Route as AdminReportsRouteImport } from './routes/admin/reports'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
+import { Route as AdminStoriesRouteImport } from './routes/admin/stories'
+import { Route as AdminSubscriptionsRouteImport } from './routes/admin/subscriptions'
+import { Route as AdminSupportRouteImport } from './routes/admin/support'
+import { Route as AdminSystemHealthRouteImport } from './routes/admin/system-health'
+import { Route as AdminTeachersRouteImport } from './routes/admin/teachers'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminVocabularyRouteImport } from './routes/admin/vocabulary'
 import { Route as AuthenticatedStoryStoryIdRouteImport } from './routes/_authenticated/story.$storyId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -27,6 +51,16 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin-login',
+  path: '/admin-login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -66,6 +100,116 @@ const AuthenticatedVocabularyRoute = AuthenticatedVocabularyRouteImport.update({
   path: '/vocabulary',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAiUsageRoute = AdminAiUsageRouteImport.update({
+  id: '/ai-usage',
+  path: '/ai-usage',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAudioRoute = AdminAudioRouteImport.update({
+  id: '/audio',
+  path: '/audio',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAuditLogsRoute = AdminAuditLogsRouteImport.update({
+  id: '/audit-logs',
+  path: '/audit-logs',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminChildrenRoute = AdminChildrenRouteImport.update({
+  id: '/children',
+  path: '/children',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDatabaseRoute = AdminDatabaseRouteImport.update({
+  id: '/database',
+  path: '/database',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDeveloperRoute = AdminDeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminIllustrationsRoute = AdminIllustrationsRouteImport.update({
+  id: '/illustrations',
+  path: '/illustrations',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminModerationRoute = AdminModerationRouteImport.update({
+  id: '/moderation',
+  path: '/moderation',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminQuizzesRoute = AdminQuizzesRouteImport.update({
+  id: '/quizzes',
+  path: '/quizzes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStoriesRoute = AdminStoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSubscriptionsRoute = AdminSubscriptionsRouteImport.update({
+  id: '/subscriptions',
+  path: '/subscriptions',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSupportRoute = AdminSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSystemHealthRoute = AdminSystemHealthRouteImport.update({
+  id: '/system-health',
+  path: '/system-health',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTeachersRoute = AdminTeachersRouteImport.update({
+  id: '/teachers',
+  path: '/teachers',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVocabularyRoute = AdminVocabularyRouteImport.update({
+  id: '/vocabulary',
+  path: '/vocabulary',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AuthenticatedStoryStoryIdRoute =
   AuthenticatedStoryStoryIdRouteImport.update({
     id: '/story/$storyId',
@@ -75,6 +219,8 @@ const AuthenticatedStoryStoryIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/admin-login': typeof AdminLoginRoute
   '/auth': typeof AuthRoute
   '/children': typeof AuthenticatedChildrenRoute
   '/classroom': typeof AuthenticatedClassroomRoute
@@ -82,10 +228,33 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/select-profile': typeof AuthenticatedSelectProfileRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/admin/ai-usage': typeof AdminAiUsageRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audio': typeof AdminAudioRoute
+  '/admin/audit-logs': typeof AdminAuditLogsRoute
+  '/admin/children': typeof AdminChildrenRoute
+  '/admin/database': typeof AdminDatabaseRoute
+  '/admin/developer': typeof AdminDeveloperRoute
+  '/admin/illustrations': typeof AdminIllustrationsRoute
+  '/admin/moderation': typeof AdminModerationRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/stories': typeof AdminStoriesRoute
+  '/admin/subscriptions': typeof AdminSubscriptionsRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/system-health': typeof AdminSystemHealthRoute
+  '/admin/teachers': typeof AdminTeachersRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/vocabulary': typeof AdminVocabularyRoute
+  '/admin/': typeof AdminIndexRoute
   '/story/$storyId': typeof AuthenticatedStoryStoryIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin-login': typeof AdminLoginRoute
   '/auth': typeof AuthRoute
   '/children': typeof AuthenticatedChildrenRoute
   '/classroom': typeof AuthenticatedClassroomRoute
@@ -93,12 +262,36 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/select-profile': typeof AuthenticatedSelectProfileRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/admin/ai-usage': typeof AdminAiUsageRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audio': typeof AdminAudioRoute
+  '/admin/audit-logs': typeof AdminAuditLogsRoute
+  '/admin/children': typeof AdminChildrenRoute
+  '/admin/database': typeof AdminDatabaseRoute
+  '/admin/developer': typeof AdminDeveloperRoute
+  '/admin/illustrations': typeof AdminIllustrationsRoute
+  '/admin/moderation': typeof AdminModerationRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/stories': typeof AdminStoriesRoute
+  '/admin/subscriptions': typeof AdminSubscriptionsRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/system-health': typeof AdminSystemHealthRoute
+  '/admin/teachers': typeof AdminTeachersRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/vocabulary': typeof AdminVocabularyRoute
+  '/admin': typeof AdminIndexRoute
   '/story/$storyId': typeof AuthenticatedStoryStoryIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/admin': typeof AdminRouteWithChildren
+  '/admin-login': typeof AdminLoginRoute
   '/auth': typeof AuthRoute
   '/_authenticated/children': typeof AuthenticatedChildrenRoute
   '/_authenticated/classroom': typeof AuthenticatedClassroomRoute
@@ -106,12 +299,36 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/select-profile': typeof AuthenticatedSelectProfileRoute
   '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/admin/ai-usage': typeof AdminAiUsageRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audio': typeof AdminAudioRoute
+  '/admin/audit-logs': typeof AdminAuditLogsRoute
+  '/admin/children': typeof AdminChildrenRoute
+  '/admin/database': typeof AdminDatabaseRoute
+  '/admin/developer': typeof AdminDeveloperRoute
+  '/admin/illustrations': typeof AdminIllustrationsRoute
+  '/admin/moderation': typeof AdminModerationRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/quizzes': typeof AdminQuizzesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/stories': typeof AdminStoriesRoute
+  '/admin/subscriptions': typeof AdminSubscriptionsRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/system-health': typeof AdminSystemHealthRoute
+  '/admin/teachers': typeof AdminTeachersRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/vocabulary': typeof AdminVocabularyRoute
+  '/admin/': typeof AdminIndexRoute
   '/_authenticated/story/$storyId': typeof AuthenticatedStoryStoryIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
+    | '/admin-login'
     | '/auth'
     | '/children'
     | '/classroom'
@@ -119,10 +336,33 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/select-profile'
     | '/vocabulary'
+    | '/admin/ai-usage'
+    | '/admin/analytics'
+    | '/admin/audio'
+    | '/admin/audit-logs'
+    | '/admin/children'
+    | '/admin/database'
+    | '/admin/developer'
+    | '/admin/illustrations'
+    | '/admin/moderation'
+    | '/admin/notifications'
+    | '/admin/payments'
+    | '/admin/quizzes'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/stories'
+    | '/admin/subscriptions'
+    | '/admin/support'
+    | '/admin/system-health'
+    | '/admin/teachers'
+    | '/admin/users'
+    | '/admin/vocabulary'
+    | '/admin/'
     | '/story/$storyId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin-login'
     | '/auth'
     | '/children'
     | '/classroom'
@@ -130,11 +370,35 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/select-profile'
     | '/vocabulary'
+    | '/admin/ai-usage'
+    | '/admin/analytics'
+    | '/admin/audio'
+    | '/admin/audit-logs'
+    | '/admin/children'
+    | '/admin/database'
+    | '/admin/developer'
+    | '/admin/illustrations'
+    | '/admin/moderation'
+    | '/admin/notifications'
+    | '/admin/payments'
+    | '/admin/quizzes'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/stories'
+    | '/admin/subscriptions'
+    | '/admin/support'
+    | '/admin/system-health'
+    | '/admin/teachers'
+    | '/admin/users'
+    | '/admin/vocabulary'
+    | '/admin'
     | '/story/$storyId'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/admin'
+    | '/admin-login'
     | '/auth'
     | '/_authenticated/children'
     | '/_authenticated/classroom'
@@ -142,12 +406,36 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/select-profile'
     | '/_authenticated/vocabulary'
+    | '/admin/ai-usage'
+    | '/admin/analytics'
+    | '/admin/audio'
+    | '/admin/audit-logs'
+    | '/admin/children'
+    | '/admin/database'
+    | '/admin/developer'
+    | '/admin/illustrations'
+    | '/admin/moderation'
+    | '/admin/notifications'
+    | '/admin/payments'
+    | '/admin/quizzes'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/stories'
+    | '/admin/subscriptions'
+    | '/admin/support'
+    | '/admin/system-health'
+    | '/admin/teachers'
+    | '/admin/users'
+    | '/admin/vocabulary'
+    | '/admin/'
     | '/_authenticated/story/$storyId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AdminRoute: typeof AdminRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
   AuthRoute: typeof AuthRoute
 }
 
@@ -165,6 +453,20 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin-login': {
+      id: '/admin-login'
+      path: '/admin-login'
+      fullPath: '/admin-login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -216,6 +518,160 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVocabularyRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/ai-usage': {
+      id: '/admin/ai-usage'
+      path: '/ai-usage'
+      fullPath: '/admin/ai-usage'
+      preLoaderRoute: typeof AdminAiUsageRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/audio': {
+      id: '/admin/audio'
+      path: '/audio'
+      fullPath: '/admin/audio'
+      preLoaderRoute: typeof AdminAudioRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/audit-logs': {
+      id: '/admin/audit-logs'
+      path: '/audit-logs'
+      fullPath: '/admin/audit-logs'
+      preLoaderRoute: typeof AdminAuditLogsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/children': {
+      id: '/admin/children'
+      path: '/children'
+      fullPath: '/admin/children'
+      preLoaderRoute: typeof AdminChildrenRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/database': {
+      id: '/admin/database'
+      path: '/database'
+      fullPath: '/admin/database'
+      preLoaderRoute: typeof AdminDatabaseRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/developer': {
+      id: '/admin/developer'
+      path: '/developer'
+      fullPath: '/admin/developer'
+      preLoaderRoute: typeof AdminDeveloperRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/illustrations': {
+      id: '/admin/illustrations'
+      path: '/illustrations'
+      fullPath: '/admin/illustrations'
+      preLoaderRoute: typeof AdminIllustrationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/moderation': {
+      id: '/admin/moderation'
+      path: '/moderation'
+      fullPath: '/admin/moderation'
+      preLoaderRoute: typeof AdminModerationRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/notifications': {
+      id: '/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminNotificationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/payments': {
+      id: '/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/quizzes': {
+      id: '/admin/quizzes'
+      path: '/quizzes'
+      fullPath: '/admin/quizzes'
+      preLoaderRoute: typeof AdminQuizzesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/stories': {
+      id: '/admin/stories'
+      path: '/stories'
+      fullPath: '/admin/stories'
+      preLoaderRoute: typeof AdminStoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/subscriptions': {
+      id: '/admin/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/admin/subscriptions'
+      preLoaderRoute: typeof AdminSubscriptionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/support': {
+      id: '/admin/support'
+      path: '/support'
+      fullPath: '/admin/support'
+      preLoaderRoute: typeof AdminSupportRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/system-health': {
+      id: '/admin/system-health'
+      path: '/system-health'
+      fullPath: '/admin/system-health'
+      preLoaderRoute: typeof AdminSystemHealthRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/teachers': {
+      id: '/admin/teachers'
+      path: '/teachers'
+      fullPath: '/admin/teachers'
+      preLoaderRoute: typeof AdminTeachersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/vocabulary': {
+      id: '/admin/vocabulary'
+      path: '/vocabulary'
+      fullPath: '/admin/vocabulary'
+      preLoaderRoute: typeof AdminVocabularyRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_authenticated/story/$storyId': {
       id: '/_authenticated/story/$storyId'
       path: '/story/$storyId'
@@ -249,9 +705,63 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface AdminRouteChildren {
+  AdminAiUsageRoute: typeof AdminAiUsageRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminAudioRoute: typeof AdminAudioRoute
+  AdminAuditLogsRoute: typeof AdminAuditLogsRoute
+  AdminChildrenRoute: typeof AdminChildrenRoute
+  AdminDatabaseRoute: typeof AdminDatabaseRoute
+  AdminDeveloperRoute: typeof AdminDeveloperRoute
+  AdminIllustrationsRoute: typeof AdminIllustrationsRoute
+  AdminModerationRoute: typeof AdminModerationRoute
+  AdminNotificationsRoute: typeof AdminNotificationsRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminQuizzesRoute: typeof AdminQuizzesRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminStoriesRoute: typeof AdminStoriesRoute
+  AdminSubscriptionsRoute: typeof AdminSubscriptionsRoute
+  AdminSupportRoute: typeof AdminSupportRoute
+  AdminSystemHealthRoute: typeof AdminSystemHealthRoute
+  AdminTeachersRoute: typeof AdminTeachersRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminVocabularyRoute: typeof AdminVocabularyRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAiUsageRoute: AdminAiUsageRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminAudioRoute: AdminAudioRoute,
+  AdminAuditLogsRoute: AdminAuditLogsRoute,
+  AdminChildrenRoute: AdminChildrenRoute,
+  AdminDatabaseRoute: AdminDatabaseRoute,
+  AdminDeveloperRoute: AdminDeveloperRoute,
+  AdminIllustrationsRoute: AdminIllustrationsRoute,
+  AdminModerationRoute: AdminModerationRoute,
+  AdminNotificationsRoute: AdminNotificationsRoute,
+  AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminQuizzesRoute: AdminQuizzesRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminStoriesRoute: AdminStoriesRoute,
+  AdminSubscriptionsRoute: AdminSubscriptionsRoute,
+  AdminSupportRoute: AdminSupportRoute,
+  AdminSystemHealthRoute: AdminSystemHealthRoute,
+  AdminTeachersRoute: AdminTeachersRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminVocabularyRoute: AdminVocabularyRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AdminRoute: AdminRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
   AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
